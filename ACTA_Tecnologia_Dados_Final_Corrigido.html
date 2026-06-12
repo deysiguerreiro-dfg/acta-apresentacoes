@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setor de Tecnologia e Dados | ACTA Educação</title>
+  <style>
+    :root{
+      --azul:#102a43;
+      --azul2:#163b5c;
+      --dourado:#d8a83f;
+      --verde:#1f8a70;
+      --cinza:#f4f7fa;
+      --texto:#23303f;
+      --branco:#ffffff;
+      --sombra:0 16px 38px rgba(16,42,67,.14);
+      --sombra-leve:0 8px 22px rgba(16,42,67,.10);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth;}
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,#eef4f8,#ffffff);
+      color:var(--texto);
+      line-height:1.55;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(10px);
+      box-shadow:0 8px 25px rgba(0,0,0,.06);
+    }
+
+    .nav{
+      max-width:1180px;
+      margin:auto;
+      padding:14px 22px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
+
+    .brand{font-weight:800;color:var(--azul);letter-spacing:.3px;font-size:18px;}
+    .menu{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+    .menu a,.btn{
+      display:inline-block;
+      text-decoration:none;
+      border:none;
+      cursor:pointer;
+      background:var(--azul);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+      transition:.25s;
+    }
+    .menu a:hover,.btn:hover{background:var(--dourado);color:var(--azul);transform:translateY(-2px);}
+
+    section{
+      min-height:100vh;
+      padding:78px 22px;
+      display:flex;
+      align-items:center;
+    }
+
+    .container{max-width:1400px;margin:auto;width:100%;}
+    .hero{
+      background:radial-gradient(circle at top right,rgba(216,168,63,.22),transparent 32%),linear-gradient(135deg,var(--azul),var(--azul2));
+      color:#fff;
+    }
+    .hero h1{font-size:clamp(34px,5vw,66px);line-height:1.08;margin-bottom:22px;max-width:920px;}
+    .hero p{font-size:clamp(17px,2vw,23px);max-width:850px;opacity:.95;margin-bottom:28px;}
+    .tag{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:9px 14px;border-radius:999px;margin-bottom:24px;font-weight:700;}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+    .btn.light{background:#fff;color:var(--azul);}
+    .btn.gold{background:var(--dourado);color:var(--azul);}
+
+    h2{font-size:clamp(30px,4vw,46px);color:var(--azul);margin-bottom:18px;line-height:1.12;}
+    .dark h2{color:#fff;}
+    .lead{font-size:20px;max-width:930px;margin-bottom:30px;color:#455466;}
+    .dark .lead{color:rgba(255,255,255,.86);}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px;}
+    .grid.two{grid-template-columns:repeat(2,1fr);}
+    .grid.four{grid-template-columns:repeat(4,1fr);}
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:var(--sombra);
+      border:1px solid rgba(16,42,67,.08);
+    }
+    .card h3{color:var(--azul);font-size:21px;margin-bottom:12px;}
+    .card p,.card li{font-size:16px;color:#465568;}
+    .card ul{padding-left:20px;margin-top:10px;}
+    .icon{font-size:34px;margin-bottom:12px;display:block;}
+
+    .timeline{position:relative;margin-top:28px;display:grid;gap:18px;}
+    .item{background:#fff;border-left:7px solid var(--dourado);border-radius:18px;padding:22px 24px;box-shadow:var(--sombra);}
+    .item strong{color:var(--azul);display:block;font-size:19px;margin-bottom:6px;}
+    .dark{background:linear-gradient(135deg,var(--azul),#0b1f33);color:#fff;}
+
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;}
+    .metric{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:24px;text-align:center;}
+    .metric b{display:block;font-size:38px;color:var(--dourado);line-height:1.1;margin-bottom:8px;}
+    .metric span{font-size:15px;color:rgba(255,255,255,.86);}
+
+    .process{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:30px;}
+    .step{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sombra);text-align:center;border-top:5px solid var(--verde);}
+    .step b{display:block;color:var(--azul);margin-bottom:8px;}
+
+    .footer{min-height:auto;text-align:center;background:#081b2e;color:#fff;padding:60px 22px;}
+    .footer h2{color:#fff;}
+    .footer p{max-width:780px;margin:0 auto 24px;color:rgba(255,255,255,.82);font-size:18px;}
+
+    .context-layout{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(220px,1fr)) minmax(390px,1.25fr);
+      gap:20px;
+      align-items:stretch;
+      margin-top:28px;
+    }
+
+    .context-cards{
+      display:contents;
+    }
+
+    .context-cards .card{
+      min-height:270px;
+      padding:24px 24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+
+    .context-cards .icon{
+      margin:0 0 18px 0;
+      width:58px;
+      height:58px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background:#f3f6fa;
+      font-size:30px;
+    }
+
+    .context-cards h3{font-size:23px;margin-bottom:8px;}
+    .context-cards p{font-size:17px;line-height:1.55;}
+
+    .illustration{
+      background:#fff;
+      border-radius:28px;
+      padding:26px;
+      box-shadow:var(--sombra);
+      border:1px solid rgba(16,42,67,.08);
+    }
+    .illustration.sticky-chart{
+      min-height:270px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .illustration.darkbox{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);box-shadow:none;}
+    .mini-title{font-weight:800;color:var(--azul);margin-bottom:18px;font-size:20px;}
+    .dark .mini-title{color:#fff;}
+
+    .chart{display:flex;align-items:flex-end;gap:14px;height:190px;padding:26px 12px 12px;border-left:2px solid rgba(16,42,67,.18);border-bottom:2px solid rgba(16,42,67,.18);}
+    .bar{flex:1;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,var(--dourado),#f2d27c);position:relative;min-width:62px;}
+    .bar span{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:700;color:#536273;white-space:nowrap;}
+    .bar::before{content:attr(data-label);position:absolute;top:-34px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:800;color:var(--azul);white-space:nowrap;}
+
+    .donut-box{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center;}
+    .donut{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--dourado) 0 38%, var(--verde) 38% 70%, #3d6b8f 70% 100%);position:relative;margin:auto;}
+    .donut:after{content:"";position:absolute;inset:34px;background:#fff;border-radius:50%;}
+    .legend{display:grid;gap:10px;font-size:15px;}
+    .legend div{display:flex;align-items:center;gap:10px;}
+    .dot{width:14px;height:14px;border-radius:50%;display:inline-block;background:var(--dourado)}
+    .dot.green{background:var(--verde)} .dot.blue{background:#3d6b8f}
+
+    .flow-visual{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:center;margin-top:22px;}
+    .node{background:#fff;border-radius:18px;padding:18px;text-align:center;box-shadow:var(--sombra);position:relative;font-weight:800;color:var(--azul);}
+    .node small{display:block;font-weight:500;color:#607080;margin-top:5px;}
+    .node:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:26px;color:var(--dourado);z-index:2;}
+
+    .screen-mock{background:#0b1f33;border-radius:22px;padding:16px;box-shadow:var(--sombra);margin-bottom:26px;}
+    .screen-top{height:18px;display:flex;gap:6px;margin-bottom:12px}
+    .screen-top span{width:10px;height:10px;border-radius:50%;background:#d8a83f;display:block;opacity:.8}
+    .screen-body{background:#fff;border-radius:14px;padding:16px;display:grid;gap:10px;}
+    .line{height:12px;border-radius:9px;background:#dfe8ef;}.line.short{width:60%}.line.med{width:80%}
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}.kpi{background:#eef4f8;border-radius:12px;padding:12px;text-align:center;font-weight:800;color:var(--azul)}.kpi small{display:block;font-weight:500;color:#66788a}
+
+    .svg-hero{max-width:360px;width:100%;margin-top:18px;filter:drop-shadow(0 24px 40px rgba(0,0,0,.18));}
+
+    .filter-actions{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 22px;}
+    .filter-btn{border:none;cursor:pointer;background:#fff;color:var(--azul);padding:11px 16px;border-radius:999px;font-weight:800;box-shadow:var(--sombra-leve);border:1px solid rgba(16,42,67,.10);transition:.25s;}
+    .filter-btn:hover,.filter-btn.active{background:var(--dourado);color:var(--azul);transform:translateY(-2px);}
+    .action-card{display:block;}
+    .action-card.hidden{display:none;}
+    .badge{display:inline-block;background:#eef4f8;color:var(--azul);font-weight:800;font-size:12px;padding:7px 10px;border-radius:999px;margin-bottom:12px;}
+    .priority{display:inline-block;background:rgba(216,168,63,.18);color:var(--azul);font-weight:800;font-size:12px;padding:7px 10px;border-radius:999px;margin-top:14px;}
+
+
+    @media(max-width:1200px){
+      .context-layout{grid-template-columns:repeat(2,1fr);}
+      .context-cards{display:contents;}
+      .illustration.sticky-chart{min-height:auto;}
+      .grid,.grid.two,.grid.four,.metrics,.process{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:720px){
+      .flow-visual{grid-template-columns:1fr}.node:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-26px;transform:translateX(-50%)}
+      .grid,.grid.two,.grid.four,.metrics,.process{grid-template-columns:1fr;}
+      .context-layout{grid-template-columns:1fr;}
+      .context-cards{display:contents;}
+      .context-cards .icon{margin-bottom:14px;}
+      .nav{align-items:flex-start;flex-direction:column}.menu{justify-content:flex-start}section{padding:64px 18px}.hero h1{font-size:38px}
+      .donut-box{grid-template-columns:1fr;}
+      .chart{height:210px;gap:10px}.bar{min-width:45px;}
+    }
+    @media print{header{display:none}section{min-height:auto;page-break-after:always}.btn{display:none}body{background:#fff}.card,.item{box-shadow:none;border:1px solid #ddd}}
+  
+    /* ===== AJUSTE FINAL: FORMATO SLIDES 16:9 ===== */
+    html, body{
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:#0b0f16;
+    }
+
+    body{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:0;
+    }
+
+    .deck{
+      width:min(100vw,1280px);
+      height:min(100vh,720px);
+      aspect-ratio:16/9;
+      position:relative;
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 24px 60px rgba(0,0,0,.35);
+    }
+
+    .deck section{
+      display:none;
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      min-height:0 !important;
+      padding:42px 58px 112px !important;
+      overflow:hidden;
+      align-items:center;
+      box-shadow:none;
+      border-radius:0;
+    }
+
+    .deck section.active-slide{
+      display:flex !important;
+    }
+
+    .deck section > .container{
+      max-width:1160px;
+      width:100%;
+      margin:auto;
+    }
+
+    .slide-navigation{
+      position:fixed;
+      left:50%;
+      bottom:calc((100vh - min(100vh,720px))/2);
+      transform:translateX(-50%);
+      width:min(100vw,1280px);
+      height:76px;
+      background:rgba(255,255,255,.97);
+      border-top:1px solid rgba(16,42,67,.12);
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      gap:12px;
+      padding:0 32px;
+      z-index:9999;
+      backdrop-filter:blur(10px);
+      border-radius:0 0 18px 18px;
+    }
+
+    .slide-counter{
+      margin-right:auto;
+      font-size:13px;
+      font-weight:800;
+      color:var(--azul);
+      opacity:.75;
+    }
+
+    .slide-navigation button{
+      border:none;
+      cursor:pointer;
+      color:#fff;
+      border-radius:999px;
+      padding:12px 22px;
+      font-size:14px;
+      font-weight:800;
+      transition:.2s;
+      box-shadow:0 10px 24px rgba(16,42,67,.20);
+    }
+
+    .prev-slide{background:var(--azul);}
+    .next-slide{background:#2f80ed;}
+    .slide-navigation button:hover{transform:translateY(-2px);filter:brightness(.97);}
+
+    .hero-actions,
+    .btn.gold,
+    .btn.light{
+      display:none !important;
+    }
+
+    h2{font-size:34px;margin-bottom:12px;}
+    .hero h1{font-size:52px;}
+    .hero p{font-size:20px;}
+    .lead{font-size:17px;margin-bottom:22px;max-width:1000px;}
+    .grid{gap:16px;margin-top:20px;}
+    .card{padding:20px;}
+    .card h3{font-size:19px;margin-bottom:8px;}
+    .card p,.card li{font-size:14.5px;line-height:1.42;}
+    .metrics{gap:14px;margin-top:22px;}
+    .metric{padding:18px;}
+    .metric b{font-size:30px;}
+    .context-layout{grid-template-columns:repeat(3,1fr);gap:16px;}
+    .context-layout .illustration{grid-column:1 / -1;}
+    .context-cards .card{min-height:180px;padding:18px;}
+    .context-cards .icon{width:48px;height:48px;font-size:25px;margin-bottom:10px;}
+    .context-cards h3{font-size:19px;}
+    .context-cards p{font-size:14px;}
+    .illustration.sticky-chart{min-height:180px;}
+    .chart{height:122px;padding-top:16px;}
+    .process{grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px;}
+    .step{padding:15px;font-size:14px;}
+    .timeline{gap:12px;margin-top:20px;}
+    .item{padding:16px 20px;}
+    .item strong{font-size:17px;}
+    .screen-mock{margin-bottom:18px;}
+    .filter-actions{margin:16px 0 16px;}
+    .filter-btn{padding:9px 13px;font-size:13px;}
+    .svg-hero{max-width:300px;margin-top:10px;}
+
+    @media(max-width:900px){
+      .deck{width:100vw;height:100vh;border-radius:0;}
+      .deck section{padding:28px 28px 104px !important;}
+      .slide-navigation{width:100vw;bottom:0;border-radius:0;height:72px;padding:0 16px;}
+      h2{font-size:27px;}
+      .hero h1{font-size:36px;}
+      .grid,.grid.two,.grid.four,.metrics,.process,.context-layout{grid-template-columns:1fr 1fr;}
+      .card p,.card li{font-size:13px;}
+    }
+
+    @media print{
+      html,body{display:block;overflow:visible;background:#fff;}
+      .deck{width:1280px;height:auto;box-shadow:none;border-radius:0;overflow:visible;}
+      .deck section,.deck section.active-slide{
+        display:flex !important;
+        position:relative;
+        width:1280px;
+        height:720px;
+        page-break-after:always;
+      }
+      .slide-navigation{display:none;}
+    }
+
+  
+/* Ajuste do slide de entregas */
+#entregas .grid{
+    display:grid !important;
+    grid-template-columns:repeat(4,1fr) !important;
+    gap:14px !important;
+    margin-top:18px !important;
+}
+#entregas .card{
+    padding:16px !important;
+    min-height:170px;
+}
+#entregas .card h3{
+    font-size:17px !important;
+    margin-bottom:6px !important;
+}
+#entregas .card p{
+    font-size:13px !important;
+    line-height:1.32 !important;
+}
+#entregas .icon{
+    font-size:24px !important;
+    margin-bottom:6px !important;
+}
+#entregas .illustration.darkbox{
+    display:none !important;
+}
+
+
+/* Ajuste extra para o slide de entregas caber 100% */
+#entregas{
+    padding:26px 48px 82px !important;
+}
+
+#entregas h2{
+    font-size:32px !important;
+    margin-bottom:8px !important;
+}
+
+#entregas .lead{
+    font-size:15px !important;
+    margin-bottom:14px !important;
+    line-height:1.25 !important;
+}
+
+#entregas .metrics{
+    gap:12px !important;
+    margin-top:12px !important;
+    margin-bottom:10px !important;
+}
+
+#entregas .metric{
+    padding:12px 10px !important;
+    border-radius:16px !important;
+    min-height:92px !important;
+}
+
+#entregas .metric b{
+    font-size:26px !important;
+    margin-bottom:4px !important;
+}
+
+#entregas .metric span{
+    font-size:12px !important;
+    line-height:1.25 !important;
+}
+
+#entregas .grid.four{
+    grid-template-columns:repeat(4,1fr) !important;
+    gap:10px !important;
+    margin-top:12px !important;
+}
+
+#entregas .card{
+    padding:12px 14px !important;
+    border-radius:16px !important;
+    min-height:138px !important;
+    max-height:158px !important;
+    overflow:hidden !important;
+}
+
+#entregas .icon{
+    font-size:20px !important;
+    margin-bottom:4px !important;
+}
+
+#entregas .card h3{
+    font-size:15.5px !important;
+    margin-bottom:5px !important;
+    line-height:1.12 !important;
+}
+
+#entregas .card p{
+    font-size:11.7px !important;
+    line-height:1.23 !important;
+}
+
+#entregas .card:nth-last-child(-n+3){
+    transform:translateX(50%);
+}
+
+.slide-navigation{
+    height:64px !important;
+}
+
+.deck section{
+    padding-bottom:92px !important;
+}
+
+
+/* ===== PADRÃO VISUAL ACTA - MESMO LAYOUT DO RELATÓRIO DE MATRÍCULAS ===== */
+:root{
+  --blue:#285BEA;
+  --blue2:#7CA7FF;
+  --navy:#071D3A;
+  --bg:#F4F7FB;
+  --card:#FFFFFF;
+  --text:#102033;
+  --muted:#64748B;
+  --line:#DDE6F3;
+  --green:#16A34A;
+  --red:#DC2626;
+  --amber:#F59E0B;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden !important;
+  background:var(--bg) !important;
+  color:var(--text);
+}
+
+body{
+  display:block !important;
+  padding:0 !important;
+  margin:0 !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+}
+
+.acta-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:linear-gradient(90deg,var(--navy),#123B7A);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 42px;
+  z-index:9998;
+  box-shadow:0 8px 22px rgba(7,29,58,.22);
+}
+
+.acta-header .brand strong{
+  display:block;
+  font-size:23px;
+  letter-spacing:.2px;
+  color:#fff;
+}
+
+.acta-header .brand span,
+.acta-header .tag{
+  font-size:13px;
+  opacity:.86;
+  color:#fff;
+}
+
+.deck{
+  width:100vw !important;
+  height:100vh !important;
+  max-width:none !important;
+  max-height:none !important;
+  aspect-ratio:auto !important;
+  position:relative !important;
+  background:var(--bg) !important;
+  border-radius:0 !important;
+  overflow:hidden !important;
+  box-shadow:none !important;
+}
+
+.deck section{
+  display:none !important;
+  position:absolute !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  min-height:0 !important;
+  padding:92px 54px 86px !important;
+  overflow:hidden !important;
+  align-items:center !important;
+  background:var(--bg) !important;
+  color:var(--text) !important;
+}
+
+.deck section.active-slide{
+  display:flex !important;
+}
+
+.deck section > .container{
+  max-width:1180px !important;
+  width:100% !important;
+  margin:auto !important;
+}
+
+.hero,
+.dark{
+  background:var(--bg) !important;
+  color:var(--text) !important;
+}
+
+.hero h1,
+h1{
+  font-size:38px !important;
+  text-align:center !important;
+  margin:0 0 12px 0 !important;
+  color:var(--navy) !important;
+  line-height:1.12 !important;
+  max-width:none !important;
+}
+
+h2{
+  font-size:30px !important;
+  text-align:center !important;
+  margin:0 0 12px 0 !important;
+  color:var(--navy) !important;
+  line-height:1.1 !important;
+}
+
+.hero p,
+.lead{
+  text-align:center !important;
+  color:var(--muted) !important;
+  font-size:16px !important;
+  line-height:1.35 !important;
+  max-width:1000px !important;
+  margin:0 auto 18px auto !important;
+}
+
+.tag{
+  display:block !important;
+  width:max-content !important;
+  margin:0 auto 14px auto !important;
+  background:#EFF6FF !important;
+  color:#1D4ED8 !important;
+  border:1px solid #DDE6F3 !important;
+  padding:8px 14px !important;
+  border-radius:999px !important;
+  font-weight:800 !important;
+}
+
+.card,
+.item,
+.illustration,
+.step,
+.metric{
+  background:#fff !important;
+  color:var(--text) !important;
+  border:1px solid var(--line) !important;
+  border-radius:20px !important;
+  box-shadow:0 10px 24px rgba(16,32,51,.07) !important;
+}
+
+.card h3,
+.item strong,
+.step b,
+.mini-title{
+  color:var(--navy) !important;
+}
+
+.card p,
+.card li,
+.item,
+.step span{
+  color:#465568 !important;
+}
+
+.grid{
+  gap:16px !important;
+  margin-top:18px !important;
+}
+
+.grid.four{
+  grid-template-columns:repeat(4,1fr) !important;
+}
+
+.grid.two{
+  grid-template-columns:repeat(2,1fr) !important;
+}
+
+.card{
+  padding:18px !important;
+}
+
+.card h3{
+  font-size:18px !important;
+  margin-bottom:8px !important;
+}
+
+.card p,
+.card li{
+  font-size:13.5px !important;
+  line-height:1.35 !important;
+}
+
+.icon{
+  font-size:24px !important;
+  margin-bottom:6px !important;
+}
+
+.metrics{
+  gap:12px !important;
+  margin-top:14px !important;
+}
+
+.metric{
+  padding:14px 12px !important;
+  text-align:center !important;
+}
+
+.metric b{
+  display:block !important;
+  font-size:26px !important;
+  color:var(--blue) !important;
+}
+
+.metric span{
+  color:var(--muted) !important;
+  font-size:12px !important;
+}
+
+.process{
+  grid-template-columns:repeat(5,1fr) !important;
+  gap:12px !important;
+  margin-top:18px !important;
+}
+
+.step{
+  padding:14px !important;
+  border-top:5px solid var(--blue) !important;
+}
+
+.timeline{
+  gap:12px !important;
+  margin-top:18px !important;
+}
+
+.item{
+  padding:16px 20px !important;
+  border-left:7px solid var(--blue) !important;
+}
+
+.footer{
+  background:var(--bg) !important;
+  color:var(--text) !important;
+  text-align:center !important;
+}
+
+.footer h2{
+  font-size:56px !important;
+  color:var(--navy) !important;
+}
+
+.footer p{
+  display:none !important;
+}
+
+.svg-hero{
+  display:block !important;
+  max-width:260px !important;
+  margin:12px auto 0 auto !important;
+  filter:none !important;
+}
+
+.flow-visual{
+  gap:12px !important;
+  margin-top:18px !important;
+}
+
+.node{
+  background:#fff !important;
+  color:var(--navy) !important;
+  border:1px solid var(--line) !important;
+  box-shadow:0 10px 24px rgba(16,32,51,.07) !important;
+}
+
+.node small{
+  color:var(--muted) !important;
+}
+
+.node:not(:last-child)::after{
+  color:var(--blue) !important;
+}
+
+.screen-mock{
+  background:#071D3A !important;
+  border-radius:20px !important;
+  box-shadow:0 10px 24px rgba(16,32,51,.10) !important;
+}
+
+.kpi{
+  background:#EFF6FF !important;
+  color:var(--blue) !important;
+}
+
+.filter-actions{
+  justify-content:center !important;
+  margin:12px 0 14px !important;
+}
+
+.filter-btn{
+  background:#fff !important;
+  color:var(--navy) !important;
+  border:1px solid var(--line) !important;
+  box-shadow:0 6px 14px rgba(16,32,51,.06) !important;
+  padding:9px 13px !important;
+}
+
+.filter-btn.active,
+.filter-btn:hover{
+  background:var(--blue) !important;
+  color:#fff !important;
+}
+
+.badge,
+.priority{
+  background:#EFF6FF !important;
+  color:#1D4ED8 !important;
+}
+
+.slide-navigation{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  transform:none !important;
+  width:100vw !important;
+  height:64px !important;
+  background:#E7EDF8 !important;
+  border-top:1px solid #CBD5E1 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:16px !important;
+  padding:0 26px !important;
+  z-index:9999 !important;
+  border-radius:0 !important;
+  backdrop-filter:none !important;
+}
+
+.slide-counter{
+  position:absolute !important;
+  right:24px !important;
+  bottom:22px !important;
+  margin:0 !important;
+  color:#475569 !important;
+  font-weight:900 !important;
+  opacity:1 !important;
+}
+
+.slide-navigation button{
+  border:0 !important;
+  border-radius:12px !important;
+  padding:11px 26px !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+  color:#fff !important;
+  cursor:pointer !important;
+  box-shadow:none !important;
+}
+
+.prev-slide{background:#64748B !important;}
+.next-slide{background:var(--blue) !important;}
+
+#entregas{
+  padding:86px 44px 82px !important;
+}
+
+#entregas .metrics{
+  margin-top:10px !important;
+  margin-bottom:10px !important;
+}
+
+#entregas .grid.four{
+  gap:10px !important;
+  margin-top:10px !important;
+}
+
+#entregas .card{
+  padding:12px 14px !important;
+  min-height:132px !important;
+  max-height:152px !important;
+  overflow:hidden !important;
+}
+
+#entregas .card h3{
+  font-size:15px !important;
+}
+
+#entregas .card p{
+  font-size:11.5px !important;
+  line-height:1.22 !important;
+}
+
+#entregas .card:nth-last-child(-n+3){
+  transform:none !important;
+}
+
+#entregas .illustration.darkbox{
+  display:none !important;
+}
+
+@media(max-height:760px){
+  .deck section{padding-top:82px !important;}
+  h2{font-size:25px !important;}
+  .hero h1,h1{font-size:32px !important;}
+  .lead,.hero p{font-size:14px !important;}
+  .card p,.card li{font-size:12.5px !important;}
+  .card{padding:14px !important;}
+  .metric b{font-size:22px !important;}
+}
+
+
+/* Ajuste específico: Slide 6 - Dados sem cortes */
+#dados{
+  padding:86px 44px 82px !important;
+}
+#dados .lead{
+  font-size:14px !important;
+  line-height:1.25 !important;
+  margin-bottom:10px !important;
+}
+#dados .screen-mock{
+  max-width:760px !important;
+  margin:0 auto 12px auto !important;
+  padding:12px !important;
+}
+#dados .screen-top{
+  height:12px !important;
+  margin-bottom:8px !important;
+}
+#dados .screen-body{
+  padding:12px !important;
+  gap:7px !important;
+}
+#dados .line{
+  height:9px !important;
+}
+#dados .kpi-row{
+  gap:8px !important;
+  margin-top:4px !important;
+}
+#dados .kpi{
+  padding:8px !important;
+  font-size:13px !important;
+}
+#dados .kpi small{
+  font-size:10px !important;
+}
+#dados .grid{
+  grid-template-columns:repeat(5,1fr) !important;
+  gap:10px !important;
+  margin-top:8px !important;
+}
+#dados .card{
+  padding:12px 12px !important;
+  min-height:140px !important;
+  max-height:160px !important;
+  overflow:hidden !important;
+}
+#dados .icon{
+  font-size:20px !important;
+  margin-bottom:4px !important;
+}
+#dados .card h3{
+  font-size:14.5px !important;
+  line-height:1.1 !important;
+  margin-bottom:5px !important;
+}
+#dados .card p{
+  font-size:11.2px !important;
+  line-height:1.22 !important;
+}
+
+/* Ajuste específico: Slide 8 - resumo visual */
+#proximas-acoes .filter-actions,
+#proximas-acoes #acoesGrid{
+  display:none !important;
+}
+#proximas-acoes .lead{
+  display:none !important;
+}
+.summary-visual{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  gap:22px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:0 10px 24px rgba(16,32,51,.07);
+  padding:44px;
+  max-width:900px;
+  margin:22px auto 0;
+}
+.summary-icon{
+  width:150px;
+  height:150px;
+  border-radius:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#EFF6FF,#DDEBFF);
+  color:var(--blue);
+  font-size:74px;
+  box-shadow:0 14px 32px rgba(40,91,234,.16);
+}
+.summary-phrase{
+  max-width:780px;
+  font-size:25px;
+  line-height:1.28;
+  color:var(--navy);
+  font-weight:800;
+}
+.summary-phrase span{
+  color:var(--blue);
+}
+
+
+/* Slide 8 - Proposta em tópicos com desenhos */
+.proposal-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+.proposal-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px 16px;
+  box-shadow:0 10px 24px rgba(16,32,51,.07);
+  min-height:150px;
+}
+.proposal-icon{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#EFF6FF;
+  color:var(--blue);
+  font-size:24px;
+  margin-bottom:10px;
+}
+.proposal-card h3{
+  font-size:15.5px;
+  line-height:1.18;
+  color:var(--navy);
+  margin:0 0 8px;
+}
+.proposal-card p{
+  font-size:12.5px;
+  line-height:1.3;
+  color:#465568;
+  margin:0;
+}
+.proposal-tag{
+  display:inline-block;
+  margin-top:8px;
+  font-size:11px;
+  font-weight:800;
+  color:#1D4ED8;
+  background:#EFF6FF;
+  border-radius:999px;
+  padding:5px 8px;
+}
+#proximas-acoes h2{
+  margin-bottom:6px !important;
+}
+#proximas-acoes .lead{
+  display:block !important;
+  font-size:14px !important;
+  max-width:920px !important;
+  margin:0 auto 8px !important;
+}
+@media(max-height:760px){
+  .proposal-grid{gap:10px;margin-top:10px}
+  .proposal-card{padding:13px;min-height:130px}
+  .proposal-icon{width:36px;height:36px;font-size:20px;margin-bottom:7px}
+  .proposal-card h3{font-size:13.5px}
+  .proposal-card p{font-size:11.2px}
+}
+
+</style>
+</head>
+<body>
+
+<header class="acta-header">
+  <div class="brand">
+    <strong>ACTA Educação</strong>
+    <span>Setor de Tecnologia e Dados</span>
+  </div>
+  <div class="tag">Relatório Gerencial • 2026</div>
+</header>
+
+<main class="deck">
+<section class="hero" id="inicio">
+  <div class="container">
+    <div class="tag">📌 Estrutura criada a partir de fevereiro de 2026</div>
+    <h1>Setor de Tecnologia e Dados da ACTA Educação</h1>
+    <p>Uma área criada para organizar processos, centralizar informações, automatizar rotinas e transformar dados operacionais em gestão estratégica para toda a rede.</p>
+    <div class="hero-actions">
+      <a href="#entregas" class="btn gold">Ver principais entregas</a>
+      <a href="#impacto" class="btn light">Ver impacto na ACTA</a>
+    </div>
+    <svg class="svg-hero" viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg" aria-label="Ilustração de tecnologia e dados">
+      <rect x="30" y="35" width="360" height="150" rx="28" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.35)"/>
+      <circle cx="105" cy="110" r="38" fill="#d8a83f"/>
+      <path d="M88 112h34M105 94v36" stroke="#102a43" stroke-width="9" stroke-linecap="round"/>
+      <rect x="165" y="72" width="150" height="16" rx="8" fill="#fff" opacity=".9"/>
+      <rect x="165" y="105" width="200" height="16" rx="8" fill="#fff" opacity=".65"/>
+      <rect x="165" y="138" width="120" height="16" rx="8" fill="#fff" opacity=".8"/>
+      <path d="M58 190 C120 150, 165 200, 230 165 S330 125, 385 152" fill="none" stroke="#d8a83f" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<section id="contexto">
+  <div class="container">
+    <h2>Antes de fevereiro de 2026, essa estrutura não existia</h2>
+    <p class="lead">A ACTA passou a contar com uma frente dedicada a tecnologia, dados e processos, conectando áreas como Comercial, Financeiro, Atendimento, Marketing, Operações Escolares e Gestão Executiva.</p>
+
+    <div class="context-layout">
+      <div class="context-cards">
+        <div class="card">
+          <span class="icon">🧩</span>
+          <div>
+            <h3>Processos descentralizados</h3>
+            <p>Informações espalhadas, baixa padronização e dificuldade de acompanhar solicitações, matrículas, atendimentos e indicadores em tempo real.</p>
+          </div>
+        </div>
+        <div class="card">
+          <span class="icon">📊</span>
+          <div>
+            <h3>Dados sem governança</h3>
+            <p>Relatórios dependiam de levantamentos manuais, com pouca integração entre ferramentas e baixa visibilidade consolidada da rede.</p>
+          </div>
+        </div>
+        <div class="card">
+          <span class="icon">⚙️</span>
+          <div>
+            <h3>Necessidade de automação</h3>
+            <p>A rotina exigia redução de retrabalho, padronização de fluxos, criação de SLAs e maior controle sobre as demandas internas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="illustration sticky-chart">
+        <div class="mini-title">Evolução da maturidade operacional da ACTA</div>
+        <div class="chart">
+          <div class="bar" style="height:34%" data-label="Baixo"><span>Antes</span></div>
+          <div class="bar" style="height:58%" data-label="Médio"><span>Transição</span></div>
+          <div class="bar" style="height:72%" data-label="Constante evolução"><span>Hoje</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="entregas">
+  <div class="container">
+    <h2>Principais entregas realizadas para a ACTA</h2>
+    <p class="lead">A atuação foi construída sobre quatro pilares: atendimento comercial, processos internos, inteligência de dados e melhoria contínua.</p>
+    <div class="metrics">
+      <div class="metric"><b>CRM</b><span>Implantação e gestão da jornada comercial</span></div>
+      <div class="metric"><b>Pipefy</b><span>Centralização de solicitações e processos</span></div>
+      <div class="metric"><b>BI</b><span>Relatórios online e indicadores</span></div>
+      <div class="metric"><b>Dados</b><span>NPS, NR1, relatórios e análises gerenciais</span></div>
+    </div>
+
+    <div class="grid four" style="margin-top:18px">
+      <div class="card"><span class="icon">📧</span><h3>Migração Google Workspace</h3><p>Planejamento e execução da migração de dados, domínios e contas do Google Workspace, com consolidação de ambientes e contribuição para economia em licenças de e-mail.</p></div>
+      <div class="card"><span class="icon">📊</span><h3>Parceria com o Financeiro</h3><p>Apoio na análise, tratamento e consolidação de dados financeiros, criação de relatórios gerenciais e automações em Excel/VBA para apoiar a tomada de decisão.</p></div>
+      <div class="card"><span class="icon">🧠</span><h3>NR1 e Gente & Gestão</h3><p>Tratamento, organização e análise dos dados da NR1 em parceria com Gente & Gestão, apoiando a leitura dos resultados, relatórios e indicadores para acompanhamento institucional.</p></div>
+      <div class="card"><span class="icon">📣</span><h3>Parceria com Marketing</h3><p>Apoio na criação de formulários, páginas e estrutura digital para campanhas de indicação, conectando captação, comunicação e gestão dos dados gerados pelas ações.</p></div>
+    
+<div class="card"><span class="icon">📚</span><h3>Parceria com o Pedagógico</h3><p>Estruturação de bases de dados para armazenamento e controle das notas fiscais dos pedidos de materiais didáticos, apoiando a organização e rastreabilidade das informações pedagógicas da rede.</p></div>
+<div class="card"><span class="icon">🗂️</span><h3>Base de Dados das Escolas</h3><p>Criação de um banco de dados por unidade para centralizar documentos, contratos, licenças, registros e informações estratégicas das escolas, facilitando o acesso e a governança documental.</p></div>
+<div class="card"><span class="icon">🌐</span><h3>Portal de Solicitações</h3><p>Desenvolvimento do portal de acompanhamento de solicitações integrado ao Pipefy, permitindo que as unidades acompanhem em tempo real o andamento das demandas, responsáveis e prazos de atendimento.</p></div>
+</div>
+
+    
+<div class="illustration darkbox" style="margin-top:26px">
+  <div class="mini-title">Mapa de atuação do setor de Tecnologia e Dados</div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px">
+    <div style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;text-align:center">
+      <div style="font-size:34px;margin-bottom:8px">🎯</div>
+      <strong>Comercial</strong>
+      <p style="font-size:14px;margin-top:6px;color:rgba(255,255,255,.78)">CRM, matrículas, WhatsApp e funis</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;text-align:center">
+      <div style="font-size:34px;margin-bottom:8px">⚙️</div>
+      <strong>Processos</strong>
+      <p style="font-size:14px;margin-top:6px;color:rgba(255,255,255,.78)">Pipefy, portal, SLAs e automações</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;text-align:center">
+      <div style="font-size:34px;margin-bottom:8px">📊</div>
+      <strong>Dados</strong>
+      <p style="font-size:14px;margin-top:6px;color:rgba(255,255,255,.78)">BI, relatórios, NPS, NR1 e Excel/VBA</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;text-align:center">
+      <div style="font-size:34px;margin-bottom:8px">🗂️</div>
+      <strong>Governança</strong>
+      <p style="font-size:14px;margin-top:6px;color:rgba(255,255,255,.78)">Google Workspace, documentação e bases por escola</p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="proximas-acoes">
+  <div class="container">
+    <h2>Proposta de continuidade para o 2º semestre</h2>
+    <p class="lead">Frentes prioritárias para ampliar integração, reduzir custos e consolidar a gestão por dados na ACTA.</p>
+
+    <div class="proposal-grid">
+      <div class="proposal-card">
+        <div class="proposal-icon">🌐</div>
+        <h3>Mapeamento de domínios e Workspaces</h3>
+        <p>Levantamento dos domínios, contas, ambientes Google Workspace e acessos de todas as unidades.</p>
+        <span class="proposal-tag">Governança digital</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-icon">🔗</div>
+        <h3>Integração Kamino com Dashboard e Pipefy</h3>
+        <p>Conectar dados financeiros e operacionais para acompanhamento em tempo real e melhor gestão dos fluxos.</p>
+        <span class="proposal-tag">Integração de sistemas</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-icon">🗂️</div>
+        <h3>Migração de dados antigos para o SISED</h3>
+        <p>Priorizar ESJC, Fênnix e Olimpus, reduzindo dependência de sistemas paralelos e gerando economia.</p>
+        <span class="proposal-tag">Economia em sistemas</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-icon">☎️</div>
+        <h3>Transformação da central de atendimento</h3>
+        <p>Organizar a central com no máximo 5 números, reduzindo dispersão operacional e custos com CRM.</p>
+        <span class="proposal-tag">Economia em CRM</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-icon">🏗️</div>
+        <h3>Acompanhamento do software integrado ACTA</h3>
+        <p>Apoiar o desenvolvimento do sistema integrado: gestão de tarefas, CRM, ERP e processos internos.</p>
+        <span class="proposal-tag">Sistema integrado</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-icon">📊</div>
+        <h3>Painel unificado de dados da rede</h3>
+        <p>Desenvolver um painel único com dados de todos os setores e escolas para visão executiva da ACTA.</p>
+        <span class="proposal-tag">Inteligência de dados</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="dark" id="impacto">
+  <div class="container">
+    <h2>Impacto para a ACTA como rede</h2>
+    <p class="lead">O setor de Tecnologia e Dados passou a sustentar a operação com processos, sistemas, automações e informações confiáveis para a tomada de decisão.</p>
+    <div class="grid">
+      <div class="card"><h3>Gestão mais integrada</h3><p>CRM, WhatsApp, Pipefy, Google Workspace, planilhas e dashboards conectados para reduzir dispersão e melhorar o acompanhamento da operação.</p></div>
+      <div class="card"><h3>Mais previsibilidade</h3><p>Indicadores comerciais, financeiros e operacionais permitem acompanhar resultados, identificar gargalos e priorizar ações.</p></div>
+      <div class="card"><h3>Economia e governança</h3><p>A migração de dados do Google Workspace contribuiu para consolidação dos ambientes, organização dos acessos e economia com licenças de e-mail.</p></div>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="footer">
+  <div class="container">
+    <h2>Muito Obrigado!</h2>
+  </div>
+</section>
+
+
+</main>
+
+<div class="slide-navigation">
+  <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div>
+  <button class="prev-slide" onclick="prevSlide()">◀ Voltar</button>
+  <button class="next-slide" onclick="nextSlide()">Próximo ▶</button>
+</div>
+
+<script>
+function filterActions(category, button){
+  const cards = document.querySelectorAll('.action-card');
+  const buttons = document.querySelectorAll('.filter-btn');
+
+  buttons.forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+
+  cards.forEach(card => {
+    const categories = card.getAttribute('data-cat') || '';
+    if(category === 'all' || categories.includes(category)){
+      card.classList.remove('hidden');
+    }else{
+      card.classList.add('hidden');
+    }
+  });
+}
+
+const slides = Array.from(document.querySelectorAll('.deck section'));
+let currentSlideIndex = 0;
+
+function showSlide(index){
+  slides.forEach(slide => slide.classList.remove('active-slide'));
+  currentSlideIndex = (index + slides.length) % slides.length;
+  slides[currentSlideIndex].classList.add('active-slide');
+
+  const current = document.getElementById('currentSlide');
+  const total = document.getElementById('totalSlides');
+  if(current) current.textContent = currentSlideIndex + 1;
+  if(total) total.textContent = slides.length;
+}
+
+function nextSlide(){ showSlide(currentSlideIndex + 1); }
+function prevSlide(){ showSlide(currentSlideIndex - 1); }
+
+document.addEventListener('keydown', function(event){
+  if(event.key === 'ArrowRight' || event.key === ' '){ nextSlide(); }
+  if(event.key === 'ArrowLeft'){ prevSlide(); }
+});
+
+showSlide(0);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACTA Educação | Análise do Processo de Captação de Matrículas 2026</title>
+<style>
+:root {
+  --blue:#285BEA;
+  --blue2:#7CA7FF;
+  --navy:#071D3A;
+  --bg:#F4F7FB;
+  --card:#FFFFFF;
+  --text:#102033;
+  --muted:#64748B;
+  --line:#DDE6F3;
+  --green:#16A34A;
+  --red:#DC2626;
+  --amber:#F59E0B;
+  --purple:#6D5DF7;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+.header{position:fixed;top:0;left:0;right:0;height:70px;background:linear-gradient(90deg,var(--navy),#123B7A);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 42px;z-index:20;box-shadow:0 8px 22px rgba(7,29,58,.22)}
+.brand strong{display:block;font-size:23px;letter-spacing:.2px}
+.brand span,.tag{font-size:13px;opacity:.86}
+.slide{display:none;height:100vh;padding:92px 54px 86px;gap:12px}
+.slide.active{display:flex;flex-direction:column}
+h1{font-size:36px;text-align:center;margin:0;color:var(--navy);line-height:1.12}
+h2{font-size:27px;text-align:center;margin:0;color:var(--navy);line-height:1.1}
+.subtitle{text-align:center;color:var(--muted);margin:0;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 28px;box-shadow:0 10px 24px rgba(16,32,51,.07);flex:1;min-height:0;overflow:hidden}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:6px}
+.kpi{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 12px;text-align:center;box-shadow:0 8px 18px rgba(16,32,51,.06)}
+.kpi b{display:block;color:var(--blue);font-size:27px;margin-bottom:4px}
+.kpi span{color:var(--muted);font-size:12px}
+.note{font-size:13px;color:var(--muted);text-align:center;margin:0}
+ul{font-size:18px;line-height:1.55;margin:0}
+.bar-list{height:100%;display:flex;flex-direction:column;justify-content:center;gap:7px}
+.bar-row{display:grid;grid-template-columns:250px minmax(250px,1fr) 86px;gap:14px;align-items:center;min-height:26px;cursor:pointer}
+.bar-label{font-size:12.5px;font-weight:800;text-align:right;line-height:1.05;color:#24344D}
+.bar-track{height:23px;background:#E7EDF7;border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;background:var(--blue);border-radius:999px;transition:.18s}
+.bar-fill.good{background:var(--green)}
+.bar-fill.ok{background:var(--blue)}
+.bar-fill.warn{background:var(--amber)}
+.bar-fill.bad{background:var(--red)}
+.bar-row:hover .bar-fill{filter:brightness(.92);transform:scaleX(1.01);transform-origin:left}
+.bar-value{font-size:13.5px;font-weight:900;color:#0F172A}
+.legend{display:flex;justify-content:center;gap:20px;color:var(--muted);font-size:12px;margin-bottom:2px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.grouped{height:100%;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.grow{display:grid;grid-template-columns:250px minmax(260px,1fr) 92px;gap:14px;align-items:center;min-height:26px;cursor:pointer}
+.stack{height:24px;background:#E7EDF7;border-radius:999px;overflow:hidden;display:flex}
+.stack .a{background:var(--blue)}
+.stack .b{background:var(--blue2)}
+.matrix{position:relative;height:100%;border:1px solid var(--line);border-radius:18px;background:linear-gradient(90deg,rgba(220,38,38,.08) 0 50%,rgba(22,163,74,.08) 50%);overflow:hidden}
+.matrix:before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:2px dashed #94A3B8}
+.matrix:after{content:"";position:absolute;top:50%;left:0;right:0;border-top:2px dashed #94A3B8}
+.point{position:absolute;transform:translate(-50%,-50%);background:var(--blue);color:white;border-radius:999px;padding:4px 7px;font-size:10px;font-weight:900;white-space:nowrap;box-shadow:0 8px 18px rgba(39,91,232,.23);cursor:pointer}
+.point.risk{background:var(--red)}
+.point.keep{background:var(--green)}
+.point.watch{background:var(--amber)}
+.quad{position:absolute;font-size:13px;font-weight:900;color:#45566E;background:rgba(255,255,255,.78);padding:4px 8px;border-radius:8px}
+.q1{right:16px;bottom:14px}
+.q2{left:16px;bottom:14px}
+.q3{left:16px;top:14px}
+.q4{right:16px;top:14px}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+.table th{color:var(--navy);font-size:13px}
+.badge{display:inline-block;border-radius:999px;padding:4px 9px;font-weight:900;font-size:12px}
+.badge.red{background:#FEE2E2;color:#991B1B}
+.badge.amber{background:#FEF3C7;color:#92400E}
+.badge.green{background:#DCFCE7;color:#166534}
+.nav{position:fixed;left:0;right:0;bottom:0;height:64px;background:#E7EDF8;border-top:1px solid #CBD5E1;display:flex;align-items:center;justify-content:center;gap:16px;z-index:30}
+button{border:0;border-radius:12px;padding:11px 26px;font-weight:900;color:white;cursor:pointer}
+.prev{background:#64748B}
+.next{background:var(--blue)}
+.counter{position:fixed;right:24px;bottom:22px;color:#475569;font-weight:900;z-index:40}
+.tooltip{position:fixed;display:none;background:#071D3A;color:white;padding:10px 12px;border-radius:10px;font-size:13px;z-index:100;box-shadow:0 12px 24px rgba(7,29,58,.24);pointer-events:none;max-width:360px}
+@media(max-height:760px){
+  .slide{padding-top:84px}
+  h1{font-size:31px}
+  h2{font-size:24px}
+  .bar-row,.grow{min-height:23px}
+  .bar-track,.stack{height:20px}
+  .bar-list,.grouped{gap:5px}
+  .bar-label{font-size:11.5px}
+  .bar-value{font-size:12px}
+  .card{padding:14px 24px}
+}
+
+/* Ranking dividido em dois gráficos lado a lado */
+.split-ranking{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  height:100%;
+  min-height:0;
+}
+.rank-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 18px;
+  box-shadow:0 8px 18px rgba(16,32,51,.06);
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+.rank-box h3{
+  margin:0 0 3px;
+  color:var(--navy);
+  font-size:18px;
+  line-height:1.1;
+}
+.rank-box p{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:12px;
+}
+.rank-box .bar-list{
+  justify-content:flex-start;
+  gap:8px;
+}
+.rank-box .bar-row{
+  grid-template-columns:135px minmax(160px,1fr) 52px;
+  min-height:28px;
+  gap:10px;
+}
+.rank-box .bar-label{
+  font-size:11.8px;
+}
+.rank-box .bar-track{
+  height:21px;
+}
+.rank-box .bar-value{
+  font-size:12.5px;
+}
+@media(max-width:900px){
+  .split-ranking{grid-template-columns:1fr;overflow:auto}
+}
+
+
+/* Ajustes executivos do slide ranking */
+.slide:has(.split-ranking){
+  padding-top:82px;
+  gap:8px;
+}
+.slide:has(.split-ranking) h2{
+  margin-bottom:4px;
+}
+.slide:has(.split-ranking) > .card{
+  margin-top:0;
+  padding:14px 22px;
+  border-radius:18px;
+  box-shadow:0 8px 22px rgba(16,32,51,.06);
+}
+.split-ranking{
+  gap:22px;
+  align-items:stretch;
+}
+.rank-box{
+  box-shadow:none;
+  border:1px solid #E4EAF5;
+  border-radius:16px;
+  padding:14px 18px 12px;
+  background:#FFFFFF;
+}
+.rank-box h3{
+  font-size:17px;
+  margin-bottom:2px;
+}
+.rank-box p{
+  display:none;
+}
+.rank-box .bar-list{
+  gap:7px;
+  margin-top:8px;
+}
+.rank-box .bar-row{
+  grid-template-columns:128px minmax(170px,1fr) 48px;
+  min-height:25px;
+}
+.rank-box .bar-label{
+  font-size:11.2px;
+}
+.rank-box .bar-track{
+  height:20px;
+}
+.rank-box .bar-value{
+  font-size:12px;
+}
+
+
+/* Versão premium do slide Ranking */
+.slide:has(.ranking-premium){
+  padding:78px 46px 78px;
+  gap:8px;
+}
+.slide:has(.ranking-premium) h2{
+  font-size:26px;
+  margin:0;
+}
+.ranking-premium{
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+  margin-top:4px;
+}
+.rank-panel{
+  background:#fff;
+  border:1px solid #DDE6F3;
+  border-radius:22px;
+  padding:18px 22px 16px;
+  box-shadow:0 12px 28px rgba(16,32,51,.08);
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.rank-panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid #EDF2F8;
+}
+.rank-panel-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:18px;
+  font-weight:900;
+  color:var(--navy);
+}
+.rank-pill{
+  font-size:11px;
+  font-weight:900;
+  border-radius:999px;
+  padding:5px 9px;
+  background:#EFF6FF;
+  color:#1D4ED8;
+}
+.rank-pill.alert{
+  background:#FEF3C7;
+  color:#92400E;
+}
+.rank-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  min-height:0;
+}
+.rank-item{
+  display:grid;
+  grid-template-columns:34px 132px minmax(160px,1fr) 50px;
+  align-items:center;
+  gap:10px;
+  min-height:29px;
+  cursor:pointer;
+}
+.rank-num{
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:#EEF4FF;
+  color:#285BEA;
+  font-size:12px;
+  font-weight:900;
+}
+.rank-num.good{
+  background:#DCFCE7;
+  color:#166534;
+}
+.rank-num.bad{
+  background:#FEE2E2;
+  color:#991B1B;
+}
+.rank-name{
+  font-size:12.5px;
+  font-weight:900;
+  color:#17233A;
+  line-height:1.05;
+}
+.rank-track{
+  height:22px;
+  background:#E7EDF7;
+  border-radius:999px;
+  overflow:hidden;
+}
+.rank-fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--blue);
+  transition:.18s;
+}
+.rank-fill.good{background:var(--green)}
+.rank-fill.warn{background:var(--amber)}
+.rank-fill.bad{background:var(--red)}
+.rank-item:hover .rank-fill{
+  filter:brightness(.92);
+  transform:scaleX(1.01);
+  transform-origin:left;
+}
+.rank-value{
+  font-size:13px;
+  font-weight:900;
+  color:#0F172A;
+}
+.ranking-insight{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.insight-card{
+  background:#F8FAFC;
+  border:1px solid #E4EAF5;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:12px;
+  color:#334155;
+  line-height:1.25;
+}
+.insight-card b{
+  display:block;
+  color:var(--navy);
+  margin-bottom:3px;
+  font-size:12.5px;
+}
+@media(max-height:760px){
+  .slide:has(.ranking-premium){padding-top:74px}
+  .rank-panel{padding:14px 18px}
+  .rank-list{gap:7px}
+  .rank-item{min-height:25px;grid-template-columns:30px 124px minmax(150px,1fr) 46px}
+  .rank-track{height:19px}
+  .rank-name{font-size:11.2px}
+  .rank-value{font-size:12px}
+  .ranking-insight{margin-top:8px}
+  .insight-card{padding:8px 10px;font-size:11px}
+}
+
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="brand">
+    <strong>ACTA Educação</strong>
+    <span>Análise do Processo de Captação de Matrículas</span>
+  </div>
+  <div class="tag">Relatório Gerencial • 2026</div>
+</header>
+
+<section class="slide active">
+  <h1>Análise do Processo de Captação de Matrículas 2026</h1>
+  <p class="subtitle">Base revisada, com exclusão gerencial de Colégio Essencial e ST Thomas School dos consolidados por dados incompletos.</p>
+  <div class="kpis">
+    <div class="kpi"><b>5.247</b><span>Matrículas ativas</span></div>
+    <div class="kpi"><b>7.536</b><span>Matrículas previstas</span></div>
+    <div class="kpi"><b>70%</b><span>Realização geral</span></div>
+    <div class="kpi"><b>7,9%</b><span>Evasão consolidada</span></div>
+    <div class="kpi"><b>7.118</b><span>Espaço ocioso</span></div>
+  </div>
+  <div class="card">
+    <ul>
+      <li>A rede está com <b>69,6%</b> de realização frente ao total previsto.</li>
+      <li>A evasão consolidada está em <b>7,9%</b>, mas existem unidades com risco elevado.</li>
+      <li>O principal foco gerencial deve ser <b>captação + retenção + ocupação</b>, priorizando unidades críticas.</li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section class="slide">
+  <h2>1. Ranking de realização por escola</h2>
+
+  <div class="ranking-premium">
+    <div class="rank-panel">
+      <div class="rank-panel-header">
+        <div class="rank-panel-title">🏆 Melhores resultados</div>
+        <div class="rank-pill">Top performance</div>
+      </div>
+      <div class="rank-list">
+        
+        <div class="rank-item item" data-info="EFETIVO: 102% de realização">
+          <div class="rank-num good">1</div>
+          <div class="rank-name">EFETIVO</div>
+          <div class="rank-track"><div class="rank-fill good" style="width:100%"></div></div>
+          <div class="rank-value">102%</div>
+        </div>
+        <div class="rank-item item" data-info="DELTA: 100% de realização">
+          <div class="rank-num good">2</div>
+          <div class="rank-name">DELTA</div>
+          <div class="rank-track"><div class="rank-fill good" style="width:98.04%"></div></div>
+          <div class="rank-value">100%</div>
+        </div>
+        <div class="rank-item item" data-info="ESJC: 90% de realização">
+          <div class="rank-num good">3</div>
+          <div class="rank-name">ESJC</div>
+          <div class="rank-track"><div class="rank-fill good" style="width:88.24%"></div></div>
+          <div class="rank-value">90%</div>
+        </div>
+        <div class="rank-item item" data-info="ESTRELINHAS: 82% de realização">
+          <div class="rank-num ">4</div>
+          <div class="rank-name">ESTRELINHAS</div>
+          <div class="rank-track"><div class="rank-fill ok" style="width:80.39%"></div></div>
+          <div class="rank-value">82%</div>
+        </div>
+        <div class="rank-item item" data-info="PETELEKO: 79% de realização">
+          <div class="rank-num ">5</div>
+          <div class="rank-name">PETELEKO</div>
+          <div class="rank-track"><div class="rank-fill ok" style="width:77.45%"></div></div>
+          <div class="rank-value">79%</div>
+        </div>
+        <div class="rank-item item" data-info="EXATO: 78% de realização">
+          <div class="rank-num ">6</div>
+          <div class="rank-name">EXATO</div>
+          <div class="rank-track"><div class="rank-fill ok" style="width:76.47%"></div></div>
+          <div class="rank-value">78%</div>
+        </div>
+        <div class="rank-item item" data-info="TRADIÇÃO: 75% de realização">
+          <div class="rank-num ">7</div>
+          <div class="rank-name">TRADIÇÃO</div>
+          <div class="rank-track"><div class="rank-fill ok" style="width:73.53%"></div></div>
+          <div class="rank-value">75%</div>
+        </div>
+        <div class="rank-item item" data-info="COC CENTRO: 74% de realização">
+          <div class="rank-num ">8</div>
+          <div class="rank-name">COC CENTRO</div>
+          <div class="rank-track"><div class="rank-fill ok" style="width:72.55%"></div></div>
+          <div class="rank-value">74%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rank-panel">
+      <div class="rank-panel-header">
+        <div class="rank-panel-title">⚠️ Pontos de atenção</div>
+        <div class="rank-pill alert">Ação comercial</div>
+      </div>
+      <div class="rank-list">
+        
+        <div class="rank-item item" data-info="PLANETA: 23% de realização">
+          <div class="rank-num bad">1</div>
+          <div class="rank-name">PLANETA</div>
+          <div class="rank-track"><div class="rank-fill bad" style="width:22.55%"></div></div>
+          <div class="rank-value">23%</div>
+        </div>
+        <div class="rank-item item" data-info="ANNA TAVARES: 32% de realização">
+          <div class="rank-num bad">2</div>
+          <div class="rank-name">ANNA TAVARES</div>
+          <div class="rank-track"><div class="rank-fill bad" style="width:31.37%"></div></div>
+          <div class="rank-value">32%</div>
+        </div>
+        <div class="rank-item item" data-info="COC RECANTO: 41% de realização">
+          <div class="rank-num bad">3</div>
+          <div class="rank-name">COC RECANTO</div>
+          <div class="rank-track"><div class="rank-fill bad" style="width:40.20%"></div></div>
+          <div class="rank-value">41%</div>
+        </div>
+        <div class="rank-item item" data-info="FÊNNIX BABY: 43% de realização">
+          <div class="rank-num bad">4</div>
+          <div class="rank-name">FÊNNIX BABY</div>
+          <div class="rank-track"><div class="rank-fill bad" style="width:42.16%"></div></div>
+          <div class="rank-value">43%</div>
+        </div>
+        <div class="rank-item item" data-info="ATHOS UNAÍ: 51% de realização">
+          <div class="rank-num ">5</div>
+          <div class="rank-name">ATHOS UNAÍ</div>
+          <div class="rank-track"><div class="rank-fill warn" style="width:50.00%"></div></div>
+          <div class="rank-value">51%</div>
+        </div>
+        <div class="rank-item item" data-info="CEAV JR: 54% de realização">
+          <div class="rank-num ">6</div>
+          <div class="rank-name">CEAV JR</div>
+          <div class="rank-track"><div class="rank-fill warn" style="width:52.94%"></div></div>
+          <div class="rank-value">54%</div>
+        </div>
+        <div class="rank-item item" data-info="OLIMPUS: 63% de realização">
+          <div class="rank-num ">7</div>
+          <div class="rank-name">OLIMPUS</div>
+          <div class="rank-track"><div class="rank-fill warn" style="width:61.76%"></div></div>
+          <div class="rank-value">63%</div>
+        </div>
+        <div class="rank-item item" data-info="FÊNNIX MATRIZ: 64% de realização">
+          <div class="rank-num ">8</div>
+          <div class="rank-name">FÊNNIX MATRIZ</div>
+          <div class="rank-track"><div class="rank-fill warn" style="width:62.75%"></div></div>
+          <div class="rank-value">64%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ranking-insight">
+    <div class="insight-card"><b>Benchmark</b>Efetivo, Delta e ESJC estão no melhor cenário de realização.</div>
+    <div class="insight-card"><b>Recuperação</b>Planeta, Anna Tavares, COC Recanto e Fênnix Baby exigem plano comercial.</div>
+    <div class="insight-card"><b>Prioridade</b>Acompanhar escolas abaixo de 60% com rotina semanal de evolução.</div>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h2>2. Escolas com menor realização</h2>
+  <p class="subtitle">Unidades que exigem plano de recuperação comercial.</p>
+  <div class="card"><div class="bar-list">
+        <div class="bar-row item" data-info="PLANETA: 23%">
+          <div class="bar-label">PLANETA</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:22.55%"></div></div>
+          <div class="bar-value">23%</div>
+        </div>
+        <div class="bar-row item" data-info="ANNA TAVARES: 32%">
+          <div class="bar-label">ANNA TAVARES</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:31.37%"></div></div>
+          <div class="bar-value">32%</div>
+        </div>
+        <div class="bar-row item" data-info="COC RECANTO: 41%">
+          <div class="bar-label">COC RECANTO</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:40.20%"></div></div>
+          <div class="bar-value">41%</div>
+        </div>
+        <div class="bar-row item" data-info="FÊNNIX BABY: 43%">
+          <div class="bar-label">FÊNNIX BABY</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:42.16%"></div></div>
+          <div class="bar-value">43%</div>
+        </div>
+        <div class="bar-row item" data-info="ATHOS UNAÍ: 51%">
+          <div class="bar-label">ATHOS UNAÍ</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:50.00%"></div></div>
+          <div class="bar-value">51%</div>
+        </div>
+        <div class="bar-row item" data-info="CEAV JR: 54%">
+          <div class="bar-label">CEAV JR</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:52.94%"></div></div>
+          <div class="bar-value">54%</div>
+        </div>
+        <div class="bar-row item" data-info="OLIMPUS OBJETIVO: 63%">
+          <div class="bar-label">OLIMPUS OBJETIVO</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:61.76%"></div></div>
+          <div class="bar-value">63%</div>
+        </div></div></div>
+</section>
+
+<section class="slide">
+  <h2>3. Rematrículas x novas matrículas</h2>
+  <p class="subtitle">Composição da base ativa nas maiores unidades.</p>
+  <div class="legend"><span><i class="dot" style="background:#285BEA"></i>Rematrículas ativas</span><span><i class="dot" style="background:#7CA7FF"></i>Novas matrículas ativas</span></div>
+  <div class="card"><div class="grouped">
+
+      <div class="grow item" data-info="DELTA: 614 rematrículas e 452 novas matrículas.">
+        <div class="bar-label">DELTA</div>
+        <div class="stack"><div class="a" style="width:57.6%"></div><div class="b" style="width:42.4%"></div></div>
+        <div class="bar-value">1.066</div>
+      </div>
+      <div class="grow item" data-info="ESTRELINHAS: 506 rematrículas e 95 novas matrículas.">
+        <div class="bar-label">ESTRELINHAS</div>
+        <div class="stack"><div class="a" style="width:84.2%"></div><div class="b" style="width:15.8%"></div></div>
+        <div class="bar-value">601</div>
+      </div>
+      <div class="grow item" data-info="COC BILINGUE: 462 rematrículas e 104 novas matrículas.">
+        <div class="bar-label">COC BILINGUE</div>
+        <div class="stack"><div class="a" style="width:81.6%"></div><div class="b" style="width:18.4%"></div></div>
+        <div class="bar-value">566</div>
+      </div>
+      <div class="grow item" data-info="ESJC: 444 rematrículas e 96 novas matrículas.">
+        <div class="bar-label">ESJC</div>
+        <div class="stack"><div class="a" style="width:82.2%"></div><div class="b" style="width:17.8%"></div></div>
+        <div class="bar-value">540</div>
+      </div>
+      <div class="grow item" data-info="TRADIÇÃO: 254 rematrículas e 63 novas matrículas.">
+        <div class="bar-label">TRADIÇÃO</div>
+        <div class="stack"><div class="a" style="width:80.1%"></div><div class="b" style="width:19.9%"></div></div>
+        <div class="bar-value">317</div>
+      </div>
+      <div class="grow item" data-info="ATHOS UNAÍ: 266 rematrículas e 20 novas matrículas.">
+        <div class="bar-label">ATHOS UNAÍ</div>
+        <div class="stack"><div class="a" style="width:93.0%"></div><div class="b" style="width:7.0%"></div></div>
+        <div class="bar-value">286</div>
+      </div>
+      <div class="grow item" data-info="COC CENTRO: 222 rematrículas e 44 novas matrículas.">
+        <div class="bar-label">COC CENTRO</div>
+        <div class="stack"><div class="a" style="width:83.5%"></div><div class="b" style="width:16.5%"></div></div>
+        <div class="bar-value">266</div>
+      </div>
+      <div class="grow item" data-info="OLIMPUS OBJETIVO: 182 rematrículas e 68 novas matrículas.">
+        <div class="bar-label">OLIMPUS OBJETIVO</div>
+        <div class="stack"><div class="a" style="width:72.8%"></div><div class="b" style="width:27.2%"></div></div>
+        <div class="bar-value">250</div>
+      </div>
+      <div class="grow item" data-info="FÊNNIX MATRIZ: 161 rematrículas e 82 novas matrículas.">
+        <div class="bar-label">FÊNNIX MATRIZ</div>
+        <div class="stack"><div class="a" style="width:66.3%"></div><div class="b" style="width:33.7%"></div></div>
+        <div class="bar-value">243</div>
+      </div>
+      <div class="grow item" data-info="ANNA TAVARES: 202 rematrículas e 35 novas matrículas.">
+        <div class="bar-label">ANNA TAVARES</div>
+        <div class="stack"><div class="a" style="width:85.2%"></div><div class="b" style="width:14.8%"></div></div>
+        <div class="bar-value">237</div>
+      </div>
+  </div></div>
+</section>
+
+<section class="slide">
+  <h2>4. Evasão por escola</h2>
+  <p class="subtitle">Unidades com maior risco de retenção.</p>
+  <div class="card"><div class="bar-list">
+        <div class="bar-row item" data-info="ATHOS UNAÍ: 32%">
+          <div class="bar-label">ATHOS UNAÍ</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:100.00%"></div></div>
+          <div class="bar-value">32%</div>
+        </div>
+        <div class="bar-row item" data-info="COC RECANTO: 27%">
+          <div class="bar-label">COC RECANTO</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:84.38%"></div></div>
+          <div class="bar-value">27%</div>
+        </div>
+        <div class="bar-row item" data-info="FÊNNIX BABY: 20%">
+          <div class="bar-label">FÊNNIX BABY</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:62.50%"></div></div>
+          <div class="bar-value">20%</div>
+        </div>
+        <div class="bar-row item" data-info="COC BILINGUE: 15%">
+          <div class="bar-label">COC BILINGUE</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:46.88%"></div></div>
+          <div class="bar-value">15%</div>
+        </div>
+        <div class="bar-row item" data-info="ANNA TAVARES: 12%">
+          <div class="bar-label">ANNA TAVARES</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:37.50%"></div></div>
+          <div class="bar-value">12%</div>
+        </div>
+        <div class="bar-row item" data-info="FÊNNIX MATRIZ: 10%">
+          <div class="bar-label">FÊNNIX MATRIZ</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:31.25%"></div></div>
+          <div class="bar-value">10%</div>
+        </div>
+        <div class="bar-row item" data-info="COC CENTRO: 7%">
+          <div class="bar-label">COC CENTRO</div>
+          <div class="bar-track"><div class="bar-fill good" style="width:21.88%"></div></div>
+          <div class="bar-value">7%</div>
+        </div>
+        <div class="bar-row item" data-info="TRADIÇÃO: 7%">
+          <div class="bar-label">TRADIÇÃO</div>
+          <div class="bar-track"><div class="bar-fill good" style="width:21.88%"></div></div>
+          <div class="bar-value">7%</div>
+        </div></div></div>
+</section>
+
+<section class="slide">
+  <h2>5. Cancelamentos absolutos</h2>
+  <p class="subtitle">Onde a perda em volume é mais relevante.</p>
+  <div class="card"><div class="bar-list">
+        <div class="bar-row item" data-info="ATHOS UNAÍ: 115">
+          <div class="bar-label">ATHOS UNAÍ</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:100.00%"></div></div>
+          <div class="bar-value">115</div>
+        </div>
+        <div class="bar-row item" data-info="COC BILINGUE: 103">
+          <div class="bar-label">COC BILINGUE</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:89.57%"></div></div>
+          <div class="bar-value">103</div>
+        </div>
+        <div class="bar-row item" data-info="ANNA TAVARES: 32">
+          <div class="bar-label">ANNA TAVARES</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:27.83%"></div></div>
+          <div class="bar-value">32</div>
+        </div>
+        <div class="bar-row item" data-info="DELTA: 27">
+          <div class="bar-label">DELTA</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:23.48%"></div></div>
+          <div class="bar-value">27</div>
+        </div>
+        <div class="bar-row item" data-info="FÊNNIX MATRIZ: 26">
+          <div class="bar-label">FÊNNIX MATRIZ</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:22.61%"></div></div>
+          <div class="bar-value">26</div>
+        </div>
+        <div class="bar-row item" data-info="TRADIÇÃO: 22">
+          <div class="bar-label">TRADIÇÃO</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:19.13%"></div></div>
+          <div class="bar-value">22</div>
+        </div>
+        <div class="bar-row item" data-info="COC RECANTO: 20">
+          <div class="bar-label">COC RECANTO</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:17.39%"></div></div>
+          <div class="bar-value">20</div>
+        </div>
+        <div class="bar-row item" data-info="COC CENTRO: 19">
+          <div class="bar-label">COC CENTRO</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:16.52%"></div></div>
+          <div class="bar-value">19</div>
+        </div></div></div>
+</section>
+
+<section class="slide">
+  <h2>6. Ocupação da capacidade</h2>
+  <p class="subtitle">Ocupado x ocioso nas maiores capacidades.</p>
+  <div class="legend"><span><i class="dot" style="background:#285BEA"></i>Ocupado</span><span><i class="dot" style="background:#E7EDF7"></i>Ocioso</span></div>
+  <div class="card"><div class="grouped">
+
+      <div class="grow item" data-info="ATHOS UNAÍ: 286 ocupadas e 1.432 vagas ociosas.">
+        <div class="bar-label">ATHOS UNAÍ</div>
+        <div class="stack"><div class="a" style="width:16.6%"></div><div style="background:#E7EDF7;width:83.4%"></div></div>
+        <div class="bar-value">17%</div>
+      </div>
+      <div class="grow item" data-info="DELTA: 1.066 ocupadas e 474 vagas ociosas.">
+        <div class="bar-label">DELTA</div>
+        <div class="stack"><div class="a" style="width:69.2%"></div><div style="background:#E7EDF7;width:30.8%"></div></div>
+        <div class="bar-value">69%</div>
+      </div>
+      <div class="grow item" data-info="ESTRELINHAS: 601 ocupadas e 649 vagas ociosas.">
+        <div class="bar-label">ESTRELINHAS</div>
+        <div class="stack"><div class="a" style="width:48.1%"></div><div style="background:#E7EDF7;width:51.9%"></div></div>
+        <div class="bar-value">48%</div>
+      </div>
+      <div class="grow item" data-info="COC BILINGUE: 566 ocupadas e 497 vagas ociosas.">
+        <div class="bar-label">COC BILINGUE</div>
+        <div class="stack"><div class="a" style="width:53.2%"></div><div style="background:#E7EDF7;width:46.8%"></div></div>
+        <div class="bar-value">53%</div>
+      </div>
+      <div class="grow item" data-info="TRADIÇÃO: 317 ocupadas e 563 vagas ociosas.">
+        <div class="bar-label">TRADIÇÃO</div>
+        <div class="stack"><div class="a" style="width:36.0%"></div><div style="background:#E7EDF7;width:64.0%"></div></div>
+        <div class="bar-value">36%</div>
+      </div>
+      <div class="grow item" data-info="ANNA TAVARES: 237 ocupadas e 613 vagas ociosas.">
+        <div class="bar-label">ANNA TAVARES</div>
+        <div class="stack"><div class="a" style="width:27.9%"></div><div style="background:#E7EDF7;width:72.1%"></div></div>
+        <div class="bar-value">28%</div>
+      </div>
+      <div class="grow item" data-info="ESJC: 540 ocupadas e 260 vagas ociosas.">
+        <div class="bar-label">ESJC</div>
+        <div class="stack"><div class="a" style="width:67.5%"></div><div style="background:#E7EDF7;width:32.5%"></div></div>
+        <div class="bar-value">68%</div>
+      </div>
+      <div class="grow item" data-info="OLIMPUS OBJETIVO: 250 ocupadas e 327 vagas ociosas.">
+        <div class="bar-label">OLIMPUS OBJETIVO</div>
+        <div class="stack"><div class="a" style="width:43.3%"></div><div style="background:#E7EDF7;width:56.7%"></div></div>
+        <div class="bar-value">43%</div>
+      </div>
+      <div class="grow item" data-info="PETELEKO: 168 ocupadas e 402 vagas ociosas.">
+        <div class="bar-label">PETELEKO</div>
+        <div class="stack"><div class="a" style="width:29.5%"></div><div style="background:#E7EDF7;width:70.5%"></div></div>
+        <div class="bar-value">29%</div>
+      </div>
+      <div class="grow item" data-info="FÊNNIX MATRIZ: 243 ocupadas e 302 vagas ociosas.">
+        <div class="bar-label">FÊNNIX MATRIZ</div>
+        <div class="stack"><div class="a" style="width:44.6%"></div><div style="background:#E7EDF7;width:55.4%"></div></div>
+        <div class="bar-value">45%</div>
+      </div>
+  </div></div>
+</section>
+
+<section class="slide">
+  <h2>7. Espaço ocioso por escola</h2>
+  <p class="subtitle">Maiores oportunidades de ocupação da rede.</p>
+  <div class="card"><div class="bar-list">
+        <div class="bar-row item" data-info="ATHOS UNAÍ: 1.432 vagas">
+          <div class="bar-label">ATHOS UNAÍ</div>
+          <div class="bar-track"><div class="bar-fill " style="width:100.00%"></div></div>
+          <div class="bar-value">1.432 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="ESTRELINHAS: 649 vagas">
+          <div class="bar-label">ESTRELINHAS</div>
+          <div class="bar-track"><div class="bar-fill " style="width:45.32%"></div></div>
+          <div class="bar-value">649 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="ANNA TAVARES: 613 vagas">
+          <div class="bar-label">ANNA TAVARES</div>
+          <div class="bar-track"><div class="bar-fill " style="width:42.81%"></div></div>
+          <div class="bar-value">613 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="TRADIÇÃO: 563 vagas">
+          <div class="bar-label">TRADIÇÃO</div>
+          <div class="bar-track"><div class="bar-fill " style="width:39.32%"></div></div>
+          <div class="bar-value">563 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="COC BILINGUE: 497 vagas">
+          <div class="bar-label">COC BILINGUE</div>
+          <div class="bar-track"><div class="bar-fill " style="width:34.71%"></div></div>
+          <div class="bar-value">497 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="DELTA: 474 vagas">
+          <div class="bar-label">DELTA</div>
+          <div class="bar-track"><div class="bar-fill " style="width:33.10%"></div></div>
+          <div class="bar-value">474 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="PETELEKO: 402 vagas">
+          <div class="bar-label">PETELEKO</div>
+          <div class="bar-track"><div class="bar-fill " style="width:28.07%"></div></div>
+          <div class="bar-value">402 vagas</div>
+        </div>
+        <div class="bar-row item" data-info="PLANETA: 352 vagas">
+          <div class="bar-label">PLANETA</div>
+          <div class="bar-track"><div class="bar-fill " style="width:24.58%"></div></div>
+          <div class="bar-value">352 vagas</div>
+        </div></div></div>
+</section>
+
+<section class="slide">
+  <h2>8. Desempenho por regional</h2>
+  <p class="subtitle">Consolidação por regional: matrículas ativas versus previstas.</p>
+  <div class="card"><div class="bar-list">
+        <div class="bar-row item" data-info="CENTRO-OESTE: 82%">
+          <div class="bar-label">CENTRO-OESTE</div>
+          <div class="bar-track"><div class="bar-fill ok" style="width:100.00%"></div></div>
+          <div class="bar-value">82%</div>
+        </div>
+        <div class="bar-row item" data-info="SUL: 78%">
+          <div class="bar-label">SUL</div>
+          <div class="bar-track"><div class="bar-fill ok" style="width:95.56%"></div></div>
+          <div class="bar-value">78%</div>
+        </div>
+        <div class="bar-row item" data-info="NORTE: 63%">
+          <div class="bar-label">NORTE</div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:76.97%"></div></div>
+          <div class="bar-value">63%</div>
+        </div>
+        <div class="bar-row item" data-info="SUDESTE: 37%">
+          <div class="bar-label">SUDESTE</div>
+          <div class="bar-track"><div class="bar-fill bad" style="width:44.56%"></div></div>
+          <div class="bar-value">37%</div>
+        </div></div></div>
+</section>
+
+<section class="slide">
+  <h2>9. Matriz estratégica: realização x evasão</h2>
+  <p class="subtitle">Prioriza ações considerando captação e retenção.</p>
+  <div class="card">
+    <div class="matrix">
+      <div class="quad q1">🟢 Manter</div>
+      <div class="quad q2">🟡 Crescer</div>
+      <div class="quad q3">🔴 Crítico</div>
+      <div class="quad q4">🟠 Retenção</div>
+<div class="point item" style="left:54%;top:91.42857142857143%;" data-info="CEAV JR: 54% realizada | 3% evasão">CEAV JR</div><div class="point keep item" style="left:95%;top:92%;" data-info="DELTA: 100% realizada | 2% evasão">DELTA</div><div class="point keep item" style="left:82%;top:92%;" data-info="ESTRELINHAS: 82% realizada | 2% evasão">ESTRELINHAS</div><div class="point risk item" style="left:43%;top:42.85714285714286%;" data-info="FÊNNIX BABY: 43% realizada | 20% evasão">F. BABY</div><div class="point watch item" style="left:64%;top:71.42857142857143%;" data-info="FÊNNIX MATRIZ: 64% realizada | 10% evasão">F. MATRIZ</div><div class="point item" style="left:63%;top:82.85714285714286%;" data-info="OLIMPUS OBJETIVO: 63% realizada | 6% evasão">OLIMPUS</div><div class="point item" style="left:79%;top:85.71428571428572%;" data-info="PETELEKO: 79% realizada | 5% evasão">PETELEKO</div><div class="point keep item" style="left:95%;top:88.57142857142857%;" data-info="EFETIVO: 102% realizada | 4% evasão">EFETIVO</div><div class="point risk item" style="left:32%;top:65.71428571428572%;" data-info="ANNA TAVARES: 32% realizada | 12% evasão">ANNA TAVARES</div><div class="point item" style="left:23%;top:92%;" data-info="PLANETA: 23% realizada | 2% evasão">PLANETA</div><div class="point keep item" style="left:90%;top:92%;" data-info="ESJC: 90% realizada | 1% evasão">ESJC</div><div class="point item" style="left:78%;top:91.42857142857143%;" data-info="EXATO: 78% realizada | 3% evasão">EXATO</div><div class="point risk item" style="left:51%;top:8.57142857142857%;" data-info="ATHOS UNAÍ: 51% realizada | 32% evasão">ATHOS UNAÍ</div><div class="point watch item" style="left:73%;top:57.142857142857146%;" data-info="COC BILINGUE: 73% realizada | 15% evasão">COC BIL.</div><div class="point item" style="left:74%;top:80.0%;" data-info="COC CENTRO: 74% realizada | 7% evasão">COC CENTRO</div><div class="point risk item" style="left:41%;top:22.857142857142847%;" data-info="COC RECANTO: 41% realizada | 27% evasão">COC RECANTO</div><div class="point item" style="left:75%;top:80.0%;" data-info="TRADIÇÃO: 75% realizada | 7% evasão">TRADIÇÃO</div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section class="slide">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
+      <h1 style="font-size:64px;color:#071D3A;margin-bottom:20px;">Muito Obrigado!</h1>
+      
+  </div>
+</section>
+
+<div class="nav">
+  <button class="prev" onclick="changeSlide(-1)">◀ Voltar</button>
+  <button class="next" onclick="changeSlide(1)">Próximo ▶</button>
+</div>
+<div class="counter" id="counter"></div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+
+function show(i) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[i].classList.add('active');
+  counter.innerText = (i + 1) + ' / ' + slides.length;
+}
+
+function changeSlide(n) {
+  current += n;
+  if (current < 0) current = slides.length - 1;
+  if (current >= slides.length) current = 0;
+  show(current);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+});
+
+show(current);
+
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('.item').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    tooltip.style.display = 'block';
+    tooltip.innerText = el.dataset.info;
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY + 14) + 'px';
+  });
+  el.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+});
+</script>
+</body>
+</html>

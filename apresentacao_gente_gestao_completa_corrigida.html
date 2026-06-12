@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apresentação Gente & Gestão</title>
+  <style>
+    :root{
+      --navy:#173961; --navy2:#102b4a; --blue:#2f80ed; --teal:#18a999;
+      --green:#43a047; --orange:#f2994a; --red:#eb5757;
+      --text:#26384f; --muted:#6f7f95; --line:#dbe5f2; --card:#fff; --bg:#eef3f9;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#0b0f16;color:var(--text);overflow:hidden}
+    .deck{width:min(100vw,1280px);height:min(100vh,720px);aspect-ratio:16/9;margin:auto;position:relative;top:50vh;transform:translateY(-50%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+    .slide{display:none;position:absolute;inset:0;padding:44px 64px 132px;background:radial-gradient(circle at 96% 2%,rgba(47,128,237,.15),transparent 34%),linear-gradient(135deg,#fff 0%,#f4f8fd 100%)}
+    .slide.active{display:flex;flex-direction:column}
+    .cover{justify-content:center;background:linear-gradient(135deg,rgba(23,57,97,.96),rgba(47,128,237,.88)),radial-gradient(circle at 80% 20%,rgba(255,255,255,.25),transparent 38%);color:white}
+    .kicker{text-transform:uppercase;letter-spacing:2.6px;font-size:12px;font-weight:800;color:var(--teal);margin-bottom:12px}.cover .kicker{color:#a7fff4}
+    h1{margin:0;font-size:48px;line-height:1.05;max-width:930px}.cover h1{color:#fff}
+    h2{margin:0 0 18px;font-size:34px;line-height:1.12;color:var(--navy)}
+    .subtitle{margin-top:18px;font-size:20px;line-height:1.42;max-width:900px;opacity:.93}
+    .footer{position:absolute;left:64px;right:64px;bottom:96px;display:flex;justify-content:flex-end;align-items:center;color:var(--muted);font-size:12px;border-top:0;padding-top:0;pointer-events:none}.cover .footer{color:rgba(255,255,255,.78);border-color:transparent}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 28px rgba(31,58,95,.08)}
+    .card h3{margin:0 0 10px;color:var(--navy);font-size:20px}.card p,.card li{font-size:16px;line-height:1.42;margin:0;color:var(--text)}ul{margin:8px 0 0;padding-left:19px}
+    .tag{display:inline-flex;background:rgba(47,128,237,.1);color:var(--blue);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;margin-bottom:10px}.accent{color:var(--teal)}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.metric{background:white;border:1px solid var(--line);border-radius:20px;padding:20px 14px;text-align:center;box-shadow:0 12px 28px rgba(31,58,95,.08)}.metric strong{display:block;font-size:36px;color:var(--blue);margin-bottom:5px}.metric span{font-size:13px;color:var(--muted);font-weight:800}
+    .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:6px}.step{background:white;border:1px solid var(--line);border-radius:20px;padding:22px 18px;min-height:230px;box-shadow:0 12px 28px rgba(31,58,95,.08)}.num{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--navy);color:white;font-weight:900;margin-bottom:14px}.step h3{margin:0 0 10px;color:var(--navy);font-size:18px}.step p{font-size:15px;line-height:1.4;margin:0}
+    .pill-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.pill{background:white;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-weight:800;color:var(--navy);font-size:13px;box-shadow:0 8px 18px rgba(31,58,95,.06)}
+    .visual{background:white;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 14px 34px rgba(31,58,95,.09)}.visual-title{font-size:16px;font-weight:900;color:var(--navy);margin-bottom:18px;text-align:center}.bar{display:grid;grid-template-columns:120px 1fr 42px;gap:10px;align-items:center;margin:12px 0;font-size:13px;font-weight:700;color:var(--text)}.track{height:13px;background:#edf2f8;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--blue))}.donut{width:210px;height:210px;border-radius:50%;margin:8px auto;background:conic-gradient(var(--blue) 0 32%,var(--teal) 32% 56%,var(--orange) 56% 78%,var(--green) 78% 100%);position:relative}.donut:after{content:"2027";position:absolute;inset:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:34px;font-weight:900;color:var(--navy)}.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.legend span{font-size:12px;font-weight:800}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:var(--blue)}.org-icon{height:260px;display:grid;place-items:center}.org-icon svg{max-width:100%;height:100%}.navigation{position:absolute;left:0;right:0;bottom:0;height:78px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:0 32px;z-index:9999}button{border:0;background:var(--navy);color:#fff;border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.18)}button:hover{background:var(--blue)}
+    @media(max-width:900px){.deck{border-radius:0}.slide{padding:32px 36px 58px}h1{font-size:36px}h2{font-size:27px}.card p,.card li{font-size:14px}.grid,.layout{grid-template-columns:1fr}.visual{display:none}.footer{position:absolute;left:64px;right:64px;bottom:96px;display:flex;justify-content:flex-end;align-items:center;color:var(--muted);font-size:12px;border-top:0;padding-top:0;pointer-events:none}.navigation{position:absolute;left:0;right:0;bottom:0;height:78px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:0 32px;z-index:9999}}
+    @media print{body{background:white;overflow:visible}.deck{width:1280px;height:720px;top:0;transform:none;box-shadow:none;border-radius:0}.slide{display:flex!important;position:relative;page-break-after:always}.navigation{position:absolute;left:0;right:0;bottom:0;height:78px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:0 32px;z-index:9999}}
+  
+    .slide-content-safe{padding-bottom:80px}
+    .pill-list{margin-bottom:24px}
+    .grid,.grid-3,.timeline,.layout{max-height:100%}
+    .navigation button:last-child{background:var(--blue)}
+    .navigation button:hover{filter:brightness(.95)}
+    @media(max-width:900px){
+      .slide{padding:28px 30px 116px}
+      .navigation{height:72px;padding:0 18px}
+      .footer{bottom:82px;left:30px;right:30px}
+    }
+
+  </style>
+</head>
+<body>
+<main class="deck">
+  <section class="slide cover active">
+    <div class="kicker">Apresentação institucional</div>
+    <h1>Da rotina operacional à gestão estratégica de pessoas</h1>
+    <p class="subtitle">Estruturação inicial do setor, conformidade com a NR-1, saúde mental no trabalho e plano de consolidação para 2027.</p>
+    <div class="footer"><span>Apresentação institucional</span><span>2026</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Contexto inicial</div><h2>Como era o setor antes da transição</h2>
+    <div class="layout">
+      <div class="grid">
+        <div class="card"><span class="tag">Modelo anterior</span><h3>DP tradicional</h3><p>Foco predominante em rotinas operacionais de RH e demandas administrativas.</p></div>
+        <div class="card"><span class="tag">Ponto de atenção</span><h3>Riscos psicossociais</h3><p>Ausência de processos estruturados para saúde mental e conformidade com a NR-1.</p></div>
+        <div class="card"><span class="tag">Base existente</span><h3>Cultura e onboarding</h3><p>Materiais iniciais de cultura, onboarding e começo da estruturação de Gente & Gestão.</p></div>
+        <div class="card"><span class="tag">Oportunidade</span><h3>Evolução estratégica</h3><p>Necessidade de conectar pessoas, cultura, dados, processos e conformidade.</p></div>
+      </div>
+      <div class="visual org-icon">
+        <svg viewBox="0 0 420 320" aria-label="Ilustração de pessoas e processos">
+          <rect x="35" y="35" width="350" height="250" rx="34" fill="#f3f7fc" stroke="#dbe5f2"/>
+          <circle cx="210" cy="105" r="44" fill="#2f80ed" opacity=".9"/><circle cx="120" cy="190" r="36" fill="#18a999"/><circle cx="300" cy="190" r="36" fill="#f2994a"/>
+          <path d="M210 150v38M156 190h108" stroke="#173961" stroke-width="10" stroke-linecap="round"/>
+          <rect x="78" y="228" width="84" height="20" rx="10" fill="#173961" opacity=".85"/><rect x="168" y="72" width="84" height="20" rx="10" fill="#173961" opacity=".85"/><rect x="258" y="228" width="84" height="20" rx="10" fill="#173961" opacity=".85"/>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span></span><span>2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Desafios encontrados</div><h2>Transição acelerada para uma área estratégica</h2>
+    <div class="metrics"><div class="metric"><strong>22</strong><span>unidades escolares</span></div><div class="metric"><strong>+1</strong><span>mês de atuação</span></div><div class="metric"><strong>NR-1</strong><span>conformidade legal</span></div><div class="metric"><strong>Rede</strong><span>alta capilaridade</span></div></div>
+    <div class="grid">
+      <div class="card"><h3>Engajamento das unidades</h3><p>Comunicação e mobilização para adesão aos instrumentos de mapeamento.</p></div>
+      <div class="card"><h3>Resistência inicial</h3><p>Necessidade de reforço institucional e acompanhamento próximo dos retornos.</p></div>
+      <div class="card"><h3>Credibilidade do setor</h3><p>Construção de legitimidade junto às lideranças em curto prazo.</p></div>
+      <div class="card"><h3>Mudança de mentalidade</h3><p>Migração da lógica operacional para uma visão estratégica de Gente & Gestão.</p></div>
+    </div>
+    <div class="footer"><span></span><span>3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Melhorias implementadas</div><h2>Bases estruturadas em menos de dois meses</h2>
+    <div class="layout">
+      <div class="timeline" style="grid-template-columns:repeat(2,1fr)">
+        <div class="step"><div class="num">1</div><h3>Diagnóstico psicossocial</h3><p>Aplicação do diagnóstico em toda a rede com referência técnica COPSOQ III.</p></div>
+        <div class="step"><div class="num">2</div><h3>Laudo técnico</h3><p>Elaboração do Laudo Técnico de Riscos Psicossociais alinhado à NR-1.</p></div>
+        <div class="step"><div class="num">3</div><h3>Saúde mental</h3><p>Implantação de atendimento psicológico como suporte aos colaboradores.</p></div>
+        <div class="step"><div class="num">4</div><h3>Capacitação</h3><p>Treinamento online sobre NR-1 e riscos psicossociais para as 22 unidades.</p></div>
+      </div>
+      <div class="visual"><div class="visual-title">Evolução da atuação do setor</div><div class="bar"><span>Processos</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82%</b></div><div class="bar"><span>Conformidade</span><div class="track"><div class="fill" style="width:76%"></div></div><b>76%</b></div><div class="bar"><span>Capacitação</span><div class="track"><div class="fill" style="width:90%"></div></div><b>90%</b></div><div class="bar"><span>Cuidado</span><div class="track"><div class="fill" style="width:72%"></div></div><b>72%</b></div><p style="font-size:12px;color:var(--muted);text-align:center;margin-top:18px">Indicadores visuais ilustrativos para apoiar a narrativa da apresentação.</p></div>
+    </div>
+    <div class="footer"><span></span><span>4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Programa em estruturação</div><h2>Gestão de Riscos Psicossociais</h2>
+    <div class="grid">
+      <div class="card"><h3>Conformidade legal</h3><p>Base documental e técnica para atendimento à NR-1, com foco preventivo e organizacional.</p></div>
+      <div class="card"><h3>Padronização</h3><p>Processos comuns para todas as unidades, reduzindo variações e fortalecendo a governança.</p></div>
+      <div class="card"><h3>Prevenção e cuidado</h3><p>Integração entre diagnóstico, suporte psicológico, capacitação e acompanhamento contínuo.</p></div>
+      <div class="card"><h3>Gestão baseada em dados</h3><p>Uso dos resultados para direcionar planos de ação, prioridades e indicadores.</p></div>
+    </div>
+    <div class="pill-list"><span class="pill">Diagnóstico</span><span class="pill">Laudo técnico</span><span class="pill">Treinamento</span><span class="pill">Atendimento psicológico</span><span class="pill">Plano de ação</span><span class="pill">Monitoramento</span></div>
+    <div class="footer"><span></span><span>5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Projeção 2027</div><h2>Quatro eixos de consolidação estratégica</h2>
+    <div class="layout">
+      <div class="grid">
+        <div class="card"><span class="tag">Eixo 1</span><h3>Desenvolvimento</h3><ul><li>Escola de Líderes</li><li>Trilhas de desenvolvimento</li><li>Educação corporativa</li></ul></div>
+        <div class="card"><span class="tag">Eixo 2</span><h3>Cultura e clima</h3><ul><li>Pesquisa de clima</li><li>Planos de ação</li><li>Reconhecimento</li></ul></div>
+        <div class="card"><span class="tag">Eixo 3</span><h3>Saúde e QVT</h3><ul><li>Saúde mental</li><li>Riscos psicossociais</li><li>Qualidade de vida</li></ul></div>
+        <div class="card"><span class="tag">Eixo 4</span><h3>Dados e processos</h3><ul><li>People analytics</li><li>Indicadores estratégicos</li><li>Digitalização</li></ul></div>
+      </div>
+      <div class="visual"><div class="visual-title">Distribuição dos eixos 2027</div><div class="donut"></div><div class="legend"><span><i class="dot"></i>Desenvolvimento</span><span><i class="dot" style="background:var(--teal)"></i>Cultura</span><span><i class="dot" style="background:var(--orange)"></i>Saúde/QVT</span><span><i class="dot" style="background:var(--green)"></i>Dados</span></div></div>
+    </div>
+    <div class="footer"><span></span><span>6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Indicadores estratégicos</div><h2>People Analytics como base de gestão</h2>
+    <div class="grid-3">
+      <div class="card"><h3>Turnover</h3><p>Rotatividade por unidade, setor e período.</p></div><div class="card"><h3>Absenteísmo</h3><p>Ausências e padrões críticos.</p></div><div class="card"><h3>Engajamento</h3><p>Clima, pertencimento e cultura.</p></div><div class="card"><h3>Treinamento</h3><p>Horas de capacitação por público.</p></div><div class="card"><h3>Competências</h3><p>Trilhas individuais de desenvolvimento.</p></div><div class="card"><h3>Desempenho</h3><p>Avaliação por competências.</p></div>
+    </div>
+    <div class="footer"><span></span><span>7</span></div>
+  </section>
+
+  <section class="slide cover">
+    <div class="kicker">Síntese</div><h1>Gente & Gestão como parceiro estratégico da rede</h1>
+    <p class="subtitle">A evolução do setor conecta conformidade, cuidado com pessoas, desenvolvimento de lideranças, cultura organizacional e gestão orientada por dados.</p>
+    <div class="footer"><span>Obrigado(a)</span><span></span></div>
+  </section>
+</main>
+<div class="navigation"><button onclick="prevSlide()">← Anterior</button><button onclick="nextSlide()">Próximo →</button></div>
+<script>
+const slides=document.querySelectorAll('.slide');let current=0;function showSlide(i){slides[current].classList.remove('active');current=(i+slides.length)%slides.length;slides[current].classList.add('active')}function nextSlide(){showSlide(current+1)}function prevSlide(){showSlide(current-1)}document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')nextSlide();if(e.key==='ArrowLeft')prevSlide();});
+</script>
+</body>
+</html>
