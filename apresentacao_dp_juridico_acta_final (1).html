@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Departamento Pessoal e Jurídico | ACTA Educação</title>
+<style>
+:root{--azul:#102a43;--azul2:#163b5c;--dourado:#d8a83f;--verde:#1f8a70;--texto:#23303f;--linha:rgba(16,42,67,.12);--sombra:0 16px 38px rgba(16,42,67,.14)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b0f16;font-family:Arial,Helvetica,sans-serif;color:var(--texto)}
+body{display:flex;justify-content:center;align-items:center}
+.deck{width:min(100vw,1280px);height:min(100vh,720px);aspect-ratio:16/9;position:relative;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.slide{display:none;position:absolute;inset:0;width:100%;height:100%;padding:42px 58px 104px;overflow:hidden;align-items:center;background:linear-gradient(135deg,#fff,#f4f7fa)}
+.slide.active{display:flex}.slide.dark{background:linear-gradient(135deg,var(--azul),#0b1f33);color:#fff}.cover{background:radial-gradient(circle at top right,rgba(216,168,63,.24),transparent 35%),linear-gradient(135deg,var(--azul),var(--azul2))}
+.container{width:100%;max-width:1160px;margin:auto}.kicker{display:inline-flex;padding:8px 14px;border-radius:999px;background:rgba(216,168,63,.18);color:var(--dourado);font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:16px}.dark .kicker,.cover .kicker{background:rgba(255,255,255,.12);color:#f2d27c;border:1px solid rgba(255,255,255,.2)}
+h1{font-size:52px;line-height:1.08;color:#fff;max-width:940px;margin-bottom:20px}h2{font-size:36px;line-height:1.12;color:var(--azul);margin-bottom:14px}.dark h2{color:#fff}.subtitle{font-size:21px;line-height:1.4;color:rgba(255,255,255,.9);max-width:920px}.lead{font-size:18px;line-height:1.42;max-width:1050px;margin-bottom:22px;color:#455466}.dark .lead{color:rgba(255,255,255,.88)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.grid.two{grid-template-columns:repeat(2,1fr)}.grid.four{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--linha);border-radius:18px;padding:18px;box-shadow:var(--sombra)}.dark .card{background:#fff;color:var(--texto)}.card h3{font-size:18px;color:var(--azul);margin-bottom:8px}.card p,.card li{font-size:14px;line-height:1.38;color:#465568}.card ul{padding-left:18px}.icon{font-size:28px;margin-bottom:8px;display:block}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}.metric{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:18px;text-align:center}.metric b{display:block;font-size:30px;color:var(--dourado);margin-bottom:6px}.metric span{font-size:13px;color:rgba(255,255,255,.86)}
+.timeline{display:grid;gap:13px;margin-top:18px}.item{background:#fff;border-left:6px solid var(--dourado);border-radius:16px;padding:16px 18px;box-shadow:var(--sombra)}.item strong{display:block;color:var(--azul);font-size:17px;margin-bottom:4px}.item span{font-size:14px;line-height:1.35;color:#465568}
+.pill-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.pill{background:#fff;border:1px solid var(--linha);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;color:var(--azul);box-shadow:0 8px 18px rgba(16,42,67,.08)}
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:center}.visual{background:#fff;border:1px solid var(--linha);border-radius:24px;padding:22px;box-shadow:var(--sombra)}.visual-title{font-weight:800;color:var(--azul);font-size:17px;margin-bottom:16px;text-align:center}.bar-row{display:grid;grid-template-columns:130px 1fr 42px;gap:10px;align-items:center;margin:10px 0;font-size:13px;font-weight:700}.track{height:12px;background:#edf2f8;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--dourado),var(--verde));border-radius:999px}
+.donut{width:190px;height:190px;border-radius:50%;background:conic-gradient(var(--dourado) 0 30%,var(--verde) 30% 62%,#3d6b8f 62% 82%,#8aa4ba 82% 100%);margin:0 auto;position:relative}.donut:after{content:"2027";position:absolute;inset:42px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:900;color:var(--azul)}.legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.legend span{font-size:12px;font-weight:800}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--dourado);margin-right:6px}
+.slide-navigation{position:fixed;left:50%;bottom:calc((100vh - min(100vh,720px))/2);transform:translateX(-50%);width:min(100vw,1280px);height:68px;background:rgba(255,255,255,.97);border-top:1px solid rgba(16,42,67,.12);display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:0 32px;z-index:9999;backdrop-filter:blur(10px);border-radius:0 0 18px 18px}.slide-counter{margin-right:auto;font-size:13px;font-weight:800;color:var(--azul);opacity:.75}button{border:none;cursor:pointer;color:#fff;border-radius:999px;padding:11px 22px;font-size:14px;font-weight:800;transition:.2s;box-shadow:0 10px 24px rgba(16,42,67,.20)}.prev{background:var(--azul)}.next{background:#2f80ed}button:hover{transform:translateY(-2px)}.center{text-align:center}
+@media(max-width:900px){.deck{width:100vw;height:100vh;border-radius:0}.slide{padding:28px 28px 98px}.slide-navigation{width:100vw;bottom:0;border-radius:0;height:66px;padding:0 16px}h1{font-size:36px}h2{font-size:28px}.grid,.grid.two,.grid.four,.metrics,.split{grid-template-columns:1fr 1fr}.card p,.card li{font-size:12.5px}}
+@media print{html,body{display:block;overflow:visible;background:#fff}.deck{width:1280px;height:auto;box-shadow:none;border-radius:0;overflow:visible}.slide,.slide.active{display:flex!important;position:relative;width:1280px;height:720px;page-break-after:always}.slide-navigation{display:none}}
+
+/* Layout em quadrados - estilo proposta */
+.challenge-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:22px;
+}
+
+.challenge-box{
+  background:#ffffff;
+  border:1px solid rgba(216,168,63,.28);
+  border-radius:22px;
+  padding:22px 20px;
+  min-height:148px;
+  box-shadow:0 14px 32px rgba(16,42,67,.18);
+  position:relative;
+  overflow:hidden;
+}
+
+.challenge-box::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:6px;
+  background:linear-gradient(90deg,var(--dourado),var(--verde));
+}
+
+.challenge-number{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+  background:rgba(216,168,63,.18);
+  color:var(--azul);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  margin-bottom:12px;
+  font-size:14px;
+}
+
+.challenge-box h3{
+  color:var(--azul);
+  font-size:18px;
+  line-height:1.15;
+  margin-bottom:8px;
+}
+
+.challenge-box p{
+  color:#465568;
+  font-size:13.5px;
+  line-height:1.35;
+}
+
+.challenge-note{
+  margin-top:18px;
+  padding:14px 18px;
+  border-radius:18px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.22);
+  color:rgba(255,255,255,.88);
+  font-size:14px;
+  line-height:1.4;
+}
+
+@media(max-width:900px){
+  .challenge-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .challenge-box{padding:16px;min-height:130px}
+  .challenge-box h3{font-size:15px}
+  .challenge-box p{font-size:12px}
+}
+
+</style>
+</head>
+<body>
+<main class="deck">
+<section class="slide cover active"><div class="container"><div class="kicker">Apresentação institucional</div><h1>Departamento Pessoal e Jurídico</h1><p class="subtitle">Evolução dos setores, desafios encontrados, melhorias implementadas e projeção estratégica para 2027.</p><div class="metrics"><div class="metric"><b>22</b><span>escolas no grupo</span></div><div class="metric"><b>DP</b><span>padronização e conformidade</span></div><div class="metric"><b>Jurídico</b><span>centralização e prevenção</span></div><div class="metric"><b>2027</b><span>consolidação estratégica</span></div></div></div></section>
+
+<section class="slide"><div class="container"><div class="kicker">Departamento Pessoal</div><h2>Como era o setor antes de assumirmos?</h2><p class="lead">Ao assumirmos a gestão do Departamento Pessoal, o grupo contava com 22 escolas, cada uma com sua própria cultura, processos e formas de conduzir as rotinas trabalhistas e administrativas.</p><div class="grid"><div class="card"><span class="icon">🏫</span><h3>Processos descentralizados</h3><p>Cada unidade conduzia suas rotinas administrativas de forma própria, dificultando padronização e controle.</p></div><div class="card"><span class="icon">💰</span><h3>Riscos financeiros</h3><p>Existência de salários em atraso e folhas de pagamento desalinhadas às necessidades operacionais.</p></div><div class="card"><span class="icon">⚖️</span><h3>Riscos trabalhistas</h3><p>Práticas salariais fora dos padrões da CCT, colaboradores sem registro formal e exposição a passivos.</p></div><div class="card"><span class="icon">⏱️</span><h3>Horas extras</h3><p>Pagamento de horas extras sem controle e acompanhamento adequado da jornada.</p></div><div class="card"><span class="icon">📄</span><h3>Contabilidades diferentes</h3><p>Cada unidade possuía uma contabilidade diferente, dificultando a gestão integrada das informações.</p></div><div class="card"><span class="icon">🔎</span><h3>Baixa visibilidade</h3><p>Dificuldade para consolidar informações e acompanhar riscos de forma padronizada no grupo.</p></div></div></div></section>
+
+<section class="slide dark"><div class="container">
+  <div class="kicker">Departamento Pessoal</div>
+  <h2>Quais desafios encontramos?</h2>
+  <p class="lead">O maior desafio não foi apenas corrigir processos, mas promover uma transformação cultural dentro das unidades e consolidar uma nova forma de gestão.</p>
+
+  <div class="challenge-grid">
+    <div class="challenge-box"><div class="challenge-number">01</div><h3>Diferentes culturas</h3><p>As escolas incorporadas ao grupo possuíam formas distintas de conduzir rotinas, decisões e responsabilidades.</p></div>
+    <div class="challenge-box"><div class="challenge-number">02</div><h3>Resistência à mudança</h3><p>Foi necessário lidar com o pensamento de que “sempre foi feito dessa forma”.</p></div>
+    <div class="challenge-box"><div class="challenge-number">03</div><h3>Práticas antigas</h3><p>Revisão de hábitos operacionais e implantação de novos padrões de gestão.</p></div>
+    <div class="challenge-box"><div class="challenge-number">04</div><h3>Reestruturação do quadro</h3><p>Adequação das equipes às necessidades reais de cada unidade escolar.</p></div>
+    <div class="challenge-box"><div class="challenge-number">05</div><h3>Cultura de conformidade</h3><p>Construção de organização, responsabilidade trabalhista e segurança jurídica.</p></div>
+    <div class="challenge-box"><div class="challenge-number">06</div><h3>Padronização do grupo</h3><p>Criação de uma visão integrada para as 22 unidades escolares.</p></div>
+  </div>
+
+  <div class="challenge-note">Síntese: a transformação exigiu alinhamento técnico, mudança de mentalidade e fortalecimento da governança trabalhista em toda a rede.</div>
+</div></section>
+
+<section class="slide"><div class="container"><div class="kicker">Departamento Pessoal</div><h2>Quais melhorias implementamos?</h2><div class="split"><div><p class="lead">Desde o início da atuação, trabalhamos na construção de um Departamento Pessoal mais organizado, seguro e alinhado às melhores práticas.</p><div class="pill-list"><span class="pill">Padronização salarial conforme CCT</span><span class="pill">Regularização CLT</span><span class="pill">Normalização dos salários</span><span class="pill">Controle de jornada</span><span class="pill">Revisão do quadro</span><span class="pill">Plano odontológico</span><span class="pill">Redução de passivos</span><span class="pill">Centralização contábil</span></div></div><div class="visual"><div class="visual-title">Evolução operacional do DP</div><div class="bar-row"><span>Conformidade</span><div class="track"><div class="fill" style="width:78%"></div></div><b>78%</b></div><div class="bar-row"><span>Padronização</span><div class="track"><div class="fill" style="width:72%"></div></div><b>72%</b></div><div class="bar-row"><span>Controle</span><div class="track"><div class="fill" style="width:70%"></div></div><b>70%</b></div><div class="bar-row"><span>Segurança</span><div class="track"><div class="fill" style="width:76%"></div></div><b>76%</b></div></div></div></div></section>
+
+<section class="slide dark"><div class="container"><div class="kicker">Departamento Pessoal</div><h2>Projeção para 2027</h2><p class="lead">O objetivo para 2027 é consolidar a transformação iniciada, fortalecendo uma cultura de gestão baseada em organização, responsabilidade, valorização dos colaboradores e excelência operacional.</p><div class="grid"><div class="card"><h3>Cultura organizacional</h3><p>Consolidar a cultura do grupo e fortalecer práticas comuns entre as escolas.</p></div><div class="card"><h3>Padronização dos processos</h3><p>Finalizar a padronização do Departamento Pessoal em todas as unidades.</p></div><div class="card"><h3>Centralização contábil</h3><p>Concluir a centralização da contabilidade e integração das informações.</p></div><div class="card"><h3>Saúde e segurança</h3><p>Intensificar práticas de saúde e segurança do trabalho.</p></div><div class="card"><h3>Redução de riscos</h3><p>Reduzir ainda mais riscos e passivos trabalhistas.</p></div><div class="card"><h3>Tecnologia e equipe</h3><p>Investir em processos, tecnologia e desenvolvimento da equipe.</p></div></div></div></section>
+
+<section class="slide"><div class="container"><div class="kicker">Jurídico</div><h2>Como era o setor antes de assumirmos?</h2><p class="lead">Antes da estruturação do setor jurídico, não havia uma área centralizada e definida para atender o grupo. Cada escola possuía seu próprio advogado ou escritório.</p><div class="grid"><div class="card"><span class="icon">⚖️</span><h3>Sem setor centralizado</h3><p>Não havia uma área jurídica estruturada para atender o grupo de forma integrada.</p></div><div class="card"><span class="icon">🏫</span><h3>Múltiplos escritórios</h3><p>Diferentes unidades eram atendidas por advogados ou escritórios distintos.</p></div><div class="card"><span class="icon">🧭</span><h3>Interpretações divergentes</h3><p>Havia diferentes interpretações sobre normas e procedimentos legais.</p></div><div class="card"><span class="icon">📁</span><h3>Falta de padronização</h3><p>As demandas jurídicas eram conduzidas de formas diferentes entre as escolas.</p></div><div class="card"><span class="icon">🔎</span><h3>Dificuldade de acompanhamento</h3><p>Baixa consolidação das informações e do status dos processos.</p></div><div class="card"><span class="icon">📌</span><h3>Gestão fragmentada</h3><p>A ausência de um modelo único dificultava decisões estratégicas e preventivas.</p></div></div></div></section>
+
+<section class="slide dark"><div class="container">
+  <div class="kicker">Jurídico</div>
+  <h2>Quais desafios encontramos?</h2>
+  <p class="lead">O principal desafio foi centralizar todas as demandas jurídicas em um único escritório, garantindo continuidade, preservação das informações e controle de prazos.</p>
+
+  <div class="challenge-grid">
+    <div class="challenge-box"><div class="challenge-number">01</div><h3>Crescimento das demandas</h3><p>Volume crescente de demandas jurídicas em razão da expansão do grupo.</p></div>
+    <div class="challenge-box"><div class="challenge-number">02</div><h3>Histórico incompleto</h3><p>Falta de informações básicas e de histórico de alguns processos.</p></div>
+    <div class="challenge-box"><div class="challenge-number">03</div><h3>Acordos em andamento</h3><p>Diversos acordos em andamento ou em fase de negociação.</p></div>
+    <div class="challenge-box"><div class="challenge-number">04</div><h3>Processos trabalhistas</h3><p>Alto volume de processos e necessidade de definição de estratégias.</p></div>
+    <div class="challenge-box"><div class="challenge-number">05</div><h3>Comunicação interna</h3><p>Necessidade de criar uma comunicação mais eficiente entre as escolas e o jurídico.</p></div>
+    <div class="challenge-box"><div class="challenge-number">06</div><h3>Controle de prazos</h3><p>Centralização das informações para acompanhar responsabilidades e vencimentos críticos.</p></div>
+  </div>
+
+  <div class="challenge-note">Síntese: o desafio jurídico foi sair de uma atuação fragmentada para um modelo centralizado, preventivo e orientado por controle.</div>
+</div></section>
+
+<section class="slide"><div class="container"><div class="kicker">Jurídico</div><h2>Quais melhorias implementamos?</h2><p class="lead">Estamos estruturando um novo modelo de gestão jurídica, com processos mais organizados, maior controle das informações e atuação mais estratégica.</p><div class="grid"><div class="card"><span class="icon">🏛️</span><h3>Centralização jurídica</h3><p>Atendimento jurídico centralizado em um único escritório parceiro.</p></div><div class="card"><span class="icon">🔁</span><h3>Fluxos internos</h3><p>Criação de fluxos para abertura, acompanhamento e encerramento das demandas.</p></div><div class="card"><span class="icon">🗂️</span><h3>Organização documental</h3><p>Organização da documentação e das informações jurídicas das unidades.</p></div><div class="card"><span class="icon">📊</span><h3>Controle de processos</h3><p>Maior controle dos processos, acordos e responsabilidades.</p></div><div class="card"><span class="icon">📣</span><h3>Orientação padronizada</h3><p>Padronização das orientações jurídicas para todas as escolas.</p></div><div class="card"><span class="icon">🛡️</span><h3>Atuação preventiva</h3><p>Atuação preventiva para reduzir riscos e evitar novos passivos.</p></div></div></div></section>
+
+<section class="slide dark"><div class="container"><div class="kicker">Jurídico</div><h2>Projeção para 2027</h2><div class="split"><div><p class="lead">O objetivo para 2027 é consolidar uma área jurídica mais preventiva, organizada e integrada ao crescimento do grupo.</p><div class="grid two"><div class="card"><h3>Controle de prazos</h3><p>Fortalecer o controle de prazos e processos.</p></div><div class="card"><h3>Indicadores jurídicos</h3><p>Aprimorar o acompanhamento dos indicadores jurídicos.</p></div><div class="card"><h3>Redução de riscos</h3><p>Reduzir riscos trabalhistas, cíveis e contratuais.</p></div><div class="card"><h3>Prevenção</h3><p>Criar uma cultura de prevenção jurídica dentro das escolas.</p></div></div></div><div class="visual"><div class="visual-title">Eixos estratégicos 2027</div><div class="donut"></div><div class="legend"><span><i class="dot"></i>Prevenção</span><span><i class="dot" style="background:var(--verde)"></i>Controle</span><span><i class="dot" style="background:#3d6b8f"></i>Indicadores</span><span><i class="dot" style="background:#8aa4ba"></i>Segurança</span></div></div></div></div></section>
+
+<section class="slide cover"><div class="container center" style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;"><h1 style="margin:0;text-align:center;">Muito Obrigado!</h1></div></section>
+</main>
+<div class="slide-navigation"><div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">10</span></div><button class="prev" onclick="prevSlide()">← Anterior</button><button class="next" onclick="nextSlide()">Próximo →</button></div>
+<script>
+const slides=Array.from(document.querySelectorAll('.slide'));let current=0;
+function showSlide(index){slides[current].classList.remove('active');current=(index+slides.length)%slides.length;slides[current].classList.add('active');document.getElementById('currentSlide').textContent=current+1;document.getElementById('totalSlides').textContent=slides.length}
+function nextSlide(){showSlide(current+1)}function prevSlide(){showSlide(current-1)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')nextSlide();if(e.key==='ArrowLeft')prevSlide();});
+</script>
+</body>
+</html>
